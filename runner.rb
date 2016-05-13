@@ -9,6 +9,10 @@ class Numeric
 	end
 end
 
+# Changes to make
+# 1. Gun actually sprays about a centre angle, rather than directly at it
+# 2. When we loose lock (or don't acquire it) we sweep about the target point
+# 3. Change the calc gun angle to take parameters
 
 class Runner
   include Robot
@@ -30,10 +34,11 @@ class Runner
 	# Using our position x and y and the enemyx and enemyy positions calculate the angle the gun needs to be pointing
         dx=@enemyx-x
 	dy=y-@enemyy
+	spray=(time.to_i%4)-2
 	if dy==0 
 		dy=dy+1
 	end
-	@targetangle=Math.atan(dy/dx).rad
+	@targetangle=Math.atan(dy/dx).rad + spray
 	if @targetangle<0 
 		@targetangle=@targetangle+360
 	end
@@ -101,7 +106,7 @@ class Runner
       if x > battlefield_width/2
 	# We need to drive left (angle 180)
 	if heading.to_i !=180
-	  turn(1)
+	  turn(10)
 	else
 	  ~@locked=1
 	end
