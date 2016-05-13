@@ -2,8 +2,8 @@ Basic Repo for ChChRuby Robot Wars
 ==================================
 
     # Checkout the project
-    $ git clone git://github.com/patrickdavey/chchruby-robotwars.git
-    $ cd chchruby-robotwars
+    $ git clone git://github.com/tristanharris/rrobotwars.git
+    $ cd rrobotwars
 
     # Install the project dependencies
     $ gem install bundler
