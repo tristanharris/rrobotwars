@@ -10,9 +10,12 @@ class Numeric
 end
 
 # Changes to make
-# 1. Gun actually sprays about a centre angle, rather than directly at it
-# 2. When we loose lock (or don't acquire it) we sweep about the target point
+# 1- Gun actually sprays about a centre angle, rather than directly at it
+# 2- When we loose lock (or don't acquire it) we sweep about the target point
 # 3. Change the calc gun angle to take parameters
+# 4. When we find a target follow it
+# 5. Motion compensation for direction of our travel
+# 6. Split the gun and target control out into a seperate module
 
 class Runner
   include Robot
@@ -30,11 +33,25 @@ class Runner
 	# puts("With angle calculated as #{@enemyx},#{@enemyy}")
   end
 
-  def calc_gun_angle
+  def calc_gun_angle sweep_size
 	# Using our position x and y and the enemyx and enemyy positions calculate the angle the gun needs to be pointing
         dx=@enemyx-x
 	dy=y-@enemyy
-	spray=(time.to_i%4)-2
+	sprayt=(time.to_i%(sweep_size*2))
+	if sprayt<sweep_size * 0.5
+	  spray=0-sprayt
+	else
+	  if sprayt < sweep_size * 1.0
+	    spray=sweep_size-sprayt
+	  else
+	    if sprayt < sweep_size * 1.5
+	      spray=sprayt-sweep_size
+	    else
+	      spray=sweep_size*2 - sprayt
+	    end
+	  end
+	end
+	# puts("Spray #{spray}")
 	if dy==0 
 		dy=dy+1
 	end
@@ -48,8 +65,6 @@ class Runner
 	if @targetangle>360 
 		@targetangle=@targetangle-360
 	end
-	# @targetangle=270
-	# puts("DX #{dx} DY #{dy} Target Angle #{@targetangle}")
   end
 
   def tick events
@@ -71,6 +86,7 @@ class Runner
 	@mission_phase=0
     end
     # say("#{@direction} A #{@locked} S #{@startpos} E #{@endpos} D #{@enddistance} G #{gun_heading} R #{radar_heading} V #{velocity} ")
+    say("#{@targetting}")
     case @mission_phase
     when 0
       lineup
@@ -113,7 +129,7 @@ class Runner
       end
     end
     if @locked==1
-      if velocity != 4
+      if velocity != 7
 	accelerate(1)
       end
     end
@@ -202,7 +218,7 @@ class Runner
 	# Targetting of 3 means we've turned the gun and found the enemy again
 	if events['robot_scanned'].empty?
 		@lostcount=@lostcount+1
-		if @lostcount>50
+		if @lostcount>150
 			@targetting=0
 			@locked=0
 		end
@@ -245,9 +261,14 @@ class Runner
 		end
 	end
     else
-	calc_gun_angle()
-	if @targetting==1 or @targetting==3
+	if @targetting > 0
+	  if @targetting==1 or @targetting==3
 		# Try and point the gun in the direction requested
+		calc_gun_angle(2)
+	  end
+	  if @targetting==2
+	    calc_gun_angle(5+@lostcount/4)
+	  end
 		used_heading = gun_heading
 		if (@targetangle - gun_heading).abs > 180
 			used_heading=gun_heading+360;
@@ -269,14 +290,8 @@ class Runner
 		else
 			if @targetting==1 
 				@targetting=2
+				@lostcount=0
 			end
-		end
-	end
-	if @targetting==2
-		if @targetdir==1
-			turn_gun(1)
-		else
-			turn_gun(-1)
 		end
 	end
     end
