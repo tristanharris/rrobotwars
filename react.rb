@@ -19,6 +19,22 @@ class React
       turn_to rand(360), 10
     end
     run_actions
+    check_walls
+  end
+
+  def check_walls
+    if velocity != 0
+      case true
+        when x <= size
+          turn_to(heading + 90, 10)
+        when x >= battlefield_width - size
+          turn_to(heading - 90, 10)
+        when y <= size
+          turn_to(heading + 90, 10)
+        when y >= battlefield_width - size
+          turn_to(heading - 90, 10)
+      end
+    end
   end
 
   def run_actions
