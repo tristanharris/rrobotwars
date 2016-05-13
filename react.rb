@@ -14,11 +14,10 @@ class React
   def tick events
     #turn_gun 2
     #fire 3 unless events['robot_scanned'].empty?
-    #if !events['got_hit'].empty?
-    #  accelerate 8
-    #  turn 10
-    #  @run = 300
-    #end
+    if !events['got_hit'].empty?
+      accelerate_to 8
+      turn_to rand(360), 10
+    end
     run_actions
   end
 
