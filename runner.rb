@@ -37,19 +37,23 @@ class Runner
 	# Using our position x and y and the enemyx and enemyy positions calculate the angle the gun needs to be pointing
         dx=@enemyx-x
 	dy=y-@enemyy
-	sprayt=(time.to_i%(sweep_size*2))
-	if sprayt<sweep_size * 0.5
-	  spray=0-sprayt
-	else
-	  if sprayt < sweep_size * 1.0
-	    spray=sweep_size-sprayt
+	if sweep_size > 0
+	  sprayt=(time.to_i%(sweep_size*2))
+	  if sprayt<sweep_size * 0.5
+	    spray=0-sprayt
 	  else
-	    if sprayt < sweep_size * 1.5
-	      spray=sprayt-sweep_size
+	    if sprayt < sweep_size * 1.0
+	      spray=sweep_size-sprayt
 	    else
-	      spray=sweep_size*2 - sprayt
+	      if sprayt < sweep_size * 1.5
+		spray=sprayt-sweep_size
+	      else
+		spray=sweep_size*2 - sprayt
+	      end
 	    end
 	  end
+	else
+	  spray=0
 	end
 	# puts("Spray #{spray}")
 	if dy==0 
@@ -97,6 +101,8 @@ class Runner
       lineup
     when 3
       mission_phase_three(events)
+    when 4
+      mission_phase_four(events)
     end
   end
   
@@ -143,6 +149,8 @@ class Runner
 		@enddistance=@startdistance
 		@lostcount=0
 		calc_enemy_pos()
+		# Follow - re-enable when we have better scanning during travel
+		# @mission_phase=4
 	end
     end
     # Deal with pointing the gun in a consistent direction
@@ -307,5 +315,39 @@ class Runner
 		@direction = 0
 	end
     end
+  end
+  
+  def mission_phase_four events
+    # Follow a target if we have mission_phase_one
+    if @targetting == 0
+      @mission_phase = 0
+      return
+    end
+    # Drive towards enemyx and enemyy
+    distancetoenemy = Math::hypot(@enemyx-x,@enemyy-y)
+    if distancetoenemy > 300 and velocity < 8
+      accelerate(1)
+    end
+    if distancetoenemy < 301
+      stop
+    end
+    calc_gun_angle(0)
+    used_heading = heading
+    if (@targetangle - heading).abs > 180
+	    used_heading=heading+360;
+    end
+    # puts("Target angle #{@targetangle} Cur Heading #{used_heading}")
+    if (used_heading-@targetangle).abs>2
+	turn_amount=(used_heading-@targetangle).abs
+	# puts("TA: #{turn_amount}")
+	if (turn_amount>10)
+		turn_amount=10
+	end
+	if heading<@targetangle
+		turn(turn_amount)
+	else
+		turn(0-turn_amount)
+	end
+    end    
   end
 end
