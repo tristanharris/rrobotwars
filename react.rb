@@ -5,15 +5,17 @@ class React
 
   attr :pending
 
-  def initialize
+  def init
     @pending = {}
+    turn_radar 2
     turn_to(90, 2)
     accelerate_to 8
   end
 
   def tick events
-    #turn_gun 2
-    #fire 3 unless events['robot_scanned'].empty?
+    init if time == 0
+    turn_gun 2
+    fire 3 unless events['robot_scanned'].empty?
     if !events['got_hit'].empty?
       accelerate_to 8
       turn_to rand(360), 10
