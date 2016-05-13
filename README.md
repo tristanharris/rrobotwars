@@ -1,4 +1,4 @@
-Basic Repo for ChChRuby Robot Wars
+Basic Repo for RRobot Wars
 ==================================
 
     # Checkout the project
@@ -62,3 +62,8 @@ http://rubyforge.org/forum/?group_id=1109
     say(msg)            #shows msg above the robot on screen
     broadcast(msg)      #broadcasts msg to all bots (they receive 'broadcasts'
                         #events with the msg and rough direction)
+
+### Events: ###
+    robot_scanned => [[[998.7983367902816]] # array of arrays of distances to scanned robots
+    got_hit       => [[82.0]]               # array of arrays of damage done
+    broadcasts    => [["hello", "west"]]    # array of pairs of broadcast message and rough direction
