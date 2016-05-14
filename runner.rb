@@ -216,7 +216,7 @@ class Runner
 	end
     end
     if @locked!=2
-      fire 1
+      fire 3
     else
       fire 3
     end
