@@ -22,8 +22,6 @@ class React
     end
     run_actions
     check_walls
-    puts heading
-    STDIN.gets
   end
 
   def check_walls
@@ -33,14 +31,12 @@ class React
         (x >= battlefield_width - size && heading > 90) ||
         (y <= size && heading < 180) ||
         (y >= battlefield_width - size && heading > 180)
-          puts 'bounce -'
           bounce = -1
       end
       if (x <= size && heading < 270) ||
         (x >= battlefield_width - size && heading < 90) ||
         (y <= size && heading > 180) ||
         (y >= battlefield_width - size && heading < 180)
-          puts 'bounce +'
           bounce = 1
       end
       turn_to(heading + 90 * bounce, 10) unless bounce == 0
