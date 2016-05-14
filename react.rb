@@ -22,20 +22,28 @@ class React
     end
     run_actions
     check_walls
+    puts heading
+    STDIN.gets
   end
 
   def check_walls
-    if velocity != 0
-      case true
-        when x <= size
-          turn_to(heading + 90, 10)
-        when x >= battlefield_width - size
-          turn_to(heading - 90, 10)
-        when y <= size
-          turn_to(heading + 90, 10)
-        when y >= battlefield_width - size
-          turn_to(heading - 90, 10)
+    if velocity != 0 && pending[:turn].nil?
+      bounce = 0
+      if (x <= size && heading > 270) ||
+        (x >= battlefield_width - size && heading > 90) ||
+        (y <= size && heading < 180) ||
+        (y >= battlefield_width - size && heading > 180)
+          puts 'bounce -'
+          bounce = -1
       end
+      if (x <= size && heading < 270) ||
+        (x >= battlefield_width - size && heading < 90) ||
+        (y <= size && heading > 180) ||
+        (y >= battlefield_width - size && heading < 180)
+          puts 'bounce +'
+          bounce = 1
+      end
+      turn_to(heading + 90 * bounce, 10) unless bounce == 0
     end
   end
 
@@ -63,7 +71,7 @@ class React
   end
 
   def turn_to(angle, step)
-    @pending[:turn] = {angle: angle, step: step}
+    @pending[:turn] = {angle: angle % 360, step: step}
   end
 
   def accelerate_to(speed)
