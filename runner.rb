@@ -88,9 +88,11 @@ class Runner
 	@targetdir=0
 	@lostcount=0
 	@mission_phase=0
+	@previousradarheading=0
     end
     # say("#{@direction} A #{@locked} S #{@startpos} E #{@endpos} D #{@enddistance} G #{gun_heading} R #{radar_heading} V #{velocity} ")
-    # say("#{@targetting}")
+    say("#{@targetting}")
+    radar_control(events)
     target_control(events)
     case @mission_phase
     when 0
@@ -107,77 +109,20 @@ class Runner
   end
   
   def target_control events
-    if @targetting==0
-    	if events['robot_scanned'].empty?
-		if @locked>0
-			@endpos=y
-			@locked=0
-			@endangle=radar_heading.to_i
-			calc_enemy_pos()
-			@targetting=1
-			@lostcount=0
-		end
-    	else
-		# puts("#{events['robot_scanned'][0].inspect}")
-		if @locked==0
-			@startpos=y
-			@startangle=radar_heading.to_i
-			@startdistance=events['robot_scanned'][0][0].to_i
-		end
-       		@locked=@locked+1
-		@enddistance=events['robot_scanned'][0][0].to_i
-    	end
-    else
-	# Targetting of 1 means we turning the gun to point where we think the enemy is
-	# Targetting of 2 means we've turned and failed to find the enemy
-	# Targetting of 3 means we've turned the gun and found the enemy again
-	if events['robot_scanned'].empty?
-		@lostcount=@lostcount+1
-		if @lostcount>150
-			@targetting=0
-			@locked=0
-		end
-	else
-		# Lock on
-		@targetting = 3
-		# Update position
-		@startpos=y
-		@endpos=y
-		@startangle=radar_heading.to_i
-		@endangle=radar_heading.to_i
-		@startdistance=events['robot_scanned'][0][0].to_i
-		@enddistance=@startdistance
-		@lostcount=0
-		calc_enemy_pos()
-		# Follow - re-enable when we have better scanning during travel
-		# @mission_phase=4
-	end
-    end
-    # Deal with pointing the gun in a consistent direction
+    # Deal with pointing the gun at the target and shooting
     if @targetting == 0
 	if @direction==1 
 		if gun_heading.to_i != 0
 			turn_gun(3)
-		else
-			if radar_heading.to_i < 2
-				turn_radar(2)
-			else
-				turn_radar(-2)
-			end
 		end
 	end
 	if @direction==3 
 		if gun_heading.to_i != 180
 			turn_gun(3)
-		else
-			if radar_heading.to_i < 180
-				turn_radar(2)
-			else
-				turn_radar(-2)
-			end
 		end
 	end
 	if @direction > 4
+	  # We set this direction when we not doing the up/down thing and we should simply sweep the gun
 	  turn_gun(3)
 	end
     else
@@ -216,10 +161,104 @@ class Runner
 	end
     end
     if @locked!=2
-      fire 3
+      fire 0.3
     else
       fire 3
     end
+  end
+  
+  def radar_control events
+    # Control where the radar points and update the storaged enemy location
+    if @targetting==0
+    	if events['robot_scanned'].empty?
+		if @locked>0
+			@endpos=y
+			@locked=0
+			@endangle=radar_heading.to_i
+			calc_enemy_pos()
+			@targetting=1
+			@lostcount=0
+		end
+    	else
+		# puts("#{events['robot_scanned'][0].inspect}")
+		if @locked==0
+			@startpos=y
+			@startangle=@previousradarheading.to_i
+			@startdistance=events['robot_scanned'][0][0].to_i
+		end
+       		@locked=@locked+1
+		@enddistance=events['robot_scanned'][0][0].to_i
+    	end
+
+	# We dont have a lock (or a clue!) - the radar should point in the direction of the gun (+/- 2) - we'll do the target finding that way
+        if (time%2)==0
+	  desired_heading=gun_heading-3;
+	else
+	  desired_heading=gun_heading+3;
+	end
+	if desired_heading<0
+	  desired_heading+=360
+	end
+	if desired_heading>=360
+	  desired_heading-=360
+	end
+	# TODO: Sort out the wrapping so it always rotates the right way (make a higher level function for this - we need it in several places)
+	if radar_heading<desired_heading
+	  turn_amount=desired_heading-radar_heading
+	  if turn_amount>10 
+	    turn_amount=10
+	  end
+	  # puts("Turning radar + #{turn_amount} - #{radar_heading} desired #{desired_heading}")	  
+	  turn_radar(turn_amount)
+	end
+	if radar_heading>desired_heading
+	  turn_amount=radar_heading-desired_heading
+	  if turn_amount>10 
+	    turn_amount=10
+	  end
+	  # puts("Turning radar - #{turn_amount} - #{radar_heading} desired #{desired_heading}")	  
+	  turn_radar(0-turn_amount)
+	end
+	
+    else
+	# Targetting of 1 means we turning the gun to point where we think the enemy is
+	# Targetting of 2 means we've turned and failed to find the enemy
+	# Targetting of 3 means we've turned the gun and found the enemy
+	if events['robot_scanned'].empty?
+		@lostcount=@lostcount+1
+		if @lostcount>150
+			@targetting=0
+			@locked=0
+		end
+	else
+		# Lock on
+		@targetting = 3
+		# Update position
+		@startpos=y
+		@endpos=y
+		@startangle=@previousradarheading.to_i
+		@endangle=radar_heading.to_i
+		@startdistance=events['robot_scanned'][0][0].to_i
+		@enddistance=@startdistance
+		@lostcount=0
+		# puts("Found - updating pos")
+		calc_enemy_pos()
+		# Follow - re-enable when we have better scanning during travel
+		# @mission_phase=4
+	end
+	# In this instance we want to scan the radar to keep sight of the target (even if the gun isn't trained on them)
+	if events['robot_scanned'].empty?
+	  # Turn clockwise slowly ish (why not?)
+	  # puts("Fast sweep #{time}")
+	  turn_radar(20)
+	else
+	  # We targetting them last time
+	  # Need to scan fast back towards the previous radar heading
+	  turn_radar(-20)
+	end
+    end
+    # Store for use in the calculations next time
+    @previousradarheading=radar_heading
   end
   
   def mission_phase_one events
