@@ -1,7 +1,7 @@
 require 'rrobots'
 
-class Tom
-  include Hunter
+class Hunter
+  include Robot
 
   # Project Hunter
   # 
