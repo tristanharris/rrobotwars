@@ -20,11 +20,19 @@ class Hunter
     @found_enemy = false
     @pending = {}
     @halt = false;
+    
+    @top_left = {x: size, y: size}
+    @top_right = {x: battlefield_width - size, y: size}
+    @bottom_right = {x: battlefield_width - size, y: battlefield_height - size}
+    @bottom_left = {x: size, y: battlefield_height - size}
 
-    @top_left = { x: 512, y: 512 }
-    @top_left_set = false
-    @bottom_left = { x: size, y: battlefield_height - size}
-    @bottom_left_set = false
+    @top_left_bool = false
+    @top_right_bool = false
+    @bottom_right_bool = false
+    @bottom_left_bool = false
+    @phase1_complete = false
+
+    @turn_speed = 10
   end
 
   def got_hit
@@ -108,8 +116,38 @@ class Hunter
   # phase 1 
   # move round the outside edges
   def phase_1
-    @pending[:dest] = @top_left if @top_left_set == false
-    @top_left_set = true
+
+    if @phase1_complete == true then
+      init
+      pending[:dest] = @top_left
+    end
+
+    if speed > 0 and @gun_lock == true then 
+      if time.to_i.even? then
+        turn_gun(2)
+      else 
+        turn_gun(-2)
+      end
+    end
+    
+    pending[:dest] = @top_left if time == 0
+    pending[:dest] = @top_right if @top_left_bool == true
+    pending[:dest] = @bottom_right if @top_right_bool == true
+    pending[:dest] = @bottom_left if @bottom_right_bool == true
+
+    @top_left_bool = true if close_enough(@top_left[:x], @top_left[:y], size)
+    @top_right_bool = true if close_enough(@top_right[:x], @top_right[:y], size)
+    @bottom_right_bool = true if close_enough(@bottom_right[:x], @bottom_right[:y], size)
+    @bottom_left_bool = true if close_enough(@bottom_left[:x], @bottom_left[:y], size)
+
+    @phase1_complete = true if @bottom_left_bool == true
+
+  end
+
+  def close_enough dest_x, dest_y, proximity
+    if (dest_x - x).abs < proximity and (dest_y - y).abs < proximity then
+      return true
+    end
   end
 
   def run_pending
@@ -128,22 +166,22 @@ class Hunter
       # hold on to your hats
       # OK. first of all we need to check if we are facing the x and y coord's or not
       if heading != @dest_angle then
-        if heading > @dest_angle then
-         turn(-1)
-        else 
-          turn(1)
+        @turn_speed = 1 if (heading - @dest_angle).abs < 15
+        if heading < @dest_angle then
+          turn(@turn_speed)
+        else
+          turn(-@turn_speed)
         end
       end
       if heading == @dest_angle then
-        puts (pending[:dest][:x] - x).abs
-        puts (pending[:dest][:y] - y).abs
-        if (pending[:dest][:x] - x).abs < 30 && (pending[:dest][:y] - y).abs < 30 then
-          puts "at our destination"
+        accelerate(1)
+        if close_enough(pending[:dest][:x], pending[:dest][:y], size) then
           @pending[:dest] = nil
           @halt = true
+          @turn_speed = 10
         end
       end
-      accelerate(1)
+     
     end
     if @pending[:dest] then
 
@@ -157,15 +195,13 @@ class Hunter
     stop if @halt == true;
     @halt = false if speed == 0
     run_pending
-    if time < 2000 then
-      phase_1
-    end
+    
+    phase_1
   end
 
   def tick events
     init if time == 0
     @timer+= 1
-
     run_actions
   end
 
