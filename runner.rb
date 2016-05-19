@@ -42,13 +42,20 @@ class Runner
 	yb=(y-Math.sin(@endangle.deg) * @startdistance).to_i
 	@enemyx=(xb-xa)/2 + xa
 	@enemyy=(yb-ya)/2 + ya
-	# puts("With angle calculated as #{@enemyx},#{@enemyy}")
+	@enemydistance=@startdistance
+	# puts("With angle calculated as #{@enemyx},#{@enemyy} distance #{@enemydistance}")
   end
 
   def calc_gun_angle sweep_size
-	# Using our position x and y and the enemyx and enemyy positions calculate the angle the gun needs to be pointing
-        dx=@enemyx-x
-	dy=y-@enemyy
+	if @estimatedpositionx>0 and @estimatedpositiony>0
+	  dx=@estimatedpositionx-x
+	  dy=y-@estimatedpositiony
+	  puts("Using #{@estimatedpositionx},#{@estimatedpositiony} instead of #{@enemyx},#{@enemyy}")
+	else
+	  # Using our position x and y and the enemyx and enemyy positions calculate the angle the gun needs to be pointing
+	  dx=@enemyx-x
+	  dy=y-@enemyy
+	end
 	if sweep_size > 0
 	  sprayt=(time.to_i%(sweep_size*2))
 	  if sprayt<sweep_size * 0.5
@@ -99,18 +106,29 @@ class Runner
 	@radarturnrequired=0
 	@gunturnrequired=0
 	@tankturnrequired=0
+	
+	@enemydistance=0
 
 	@direction = 0
 	@locked = 0
 	@enemyx=0
+	@estimatedpositionx=0
+	@estimatedpositiony=0
 	@enemyy=0
 	@targetangle=0
 	@lostcount=0
 	@mission_phase=0
 	# debuggingenabled(1)
+
+	@knownpositions=[]
+	
     end
     # say("#{@direction} A #{@locked} S #{@startpos} E #{@endpos} D #{@enddistance} G #{gun_heading} R #{radar_heading} V #{velocity} ")
-    say("#{@targetting}")
+    if @targetting==5
+      say("L")
+    else
+      say("-")
+    end
     radar_control(events)
     target_control(events)
     case @mission_phase
@@ -185,10 +203,57 @@ class Runner
       # Means shrinking the sweep size
       if @sweepsize.to_i<4
 	@targetting=5
+	store_known_position
       else
 	@sweepsize/=2
       end
     end
+  end
+  
+  def store_known_position
+    posobj={}
+    posobj[:x]=@enemyx
+    posobj[:y]=@enemyy
+    posobj[:t]=time
+    
+    @knownpositions << posobj
+    
+    # Only store 5 positions - probably no point storing more
+    if @knownpositions.count>5
+      @knownpositions.shift
+    end
+    
+    #puts("Current known positions")
+    #puts @knownpositions
+    
+    # Work out the dx and dy if we have at least 4 positions
+    if @knownpositions.count>4
+	deltapos=[]
+	for i in 1..4
+	  dposobj={}
+	  dposobj[:x]=@knownpositions[i][:x]-@knownpositions[i-1][:x]
+	  dposobj[:y]=@knownpositions[i][:y]-@knownpositions[i-1][:y]
+	  dposobj[:t]=@knownpositions[i][:t]-@knownpositions[i-1][:t]
+	  dposobj[:h]=Math.sqrt((dposobj[:x]*dposobj[:x])+(dposobj[:y]*dposobj[:y]))/dposobj[:t]
+	  deltapos << dposobj
+	end
+	#puts("Deltas")
+	#puts deltapos
+	#puts("Sorted deltas")
+	deltapos.sort! { |ax,ay| ax[:h] <=> ay[:h] }
+	#puts deltapos
+	# Take the average of the first two (i.e. the two smallest deltas) - may change this to be the most common
+	tdx = ((deltapos[0][:x]/deltapos[0][:t])+(deltapos[1][:x]/deltapos[1][:t]))/2
+	tdy = ((deltapos[0][:y]/deltapos[0][:t])+(deltapos[1][:y]/deltapos[1][:t]))/2
+	# Need to use distance here - 10 ticks for bullets to travel 400, to 40 pixels per tick travel
+	@estimatedpositionx=@enemyx+(tdx*@enemydistance/40)
+	@estimatedpositiony=@enemyy+(tdy*@enemydistance/40)
+    else
+      	@estimatedpositionx=0
+	@estimatedpositiony=0
+    end
+    
+    
   end
   
   def radar_control events
@@ -222,6 +287,7 @@ class Runner
       if events['robot_scanned'].empty?
 	# Turn quickly
 	@radarturnrequired=30
+	@knownpositions=[]
       else
 	# Store the start location and now sweep more slowly
 	@sweepsize=28
@@ -308,10 +374,23 @@ class Runner
 	@radarturnrequired=@sweepsize
 	@targetting=4
      else
-       # We've still got sight of the target - probably need to keep turning radar here TODO
+       # We've still got sight of the target
 	@startangle=@previousradarheading.to_i
 	@endangle=radar_heading.to_i
 	calc_enemy_pos()
+	calc_gun_angle(2)
+	turn_amount=(radar_heading-@targetangle).abs
+	if turn_amount>2
+	  # puts("TA: #{turn_amount}")
+	  if (turn_amount>30)
+	    turn_amount=30
+	  end
+	  if radar_heading.angle_anticlockwiseof(@targetangle)
+	     @radarturnrequired=turn_amount
+	  else
+	     @radarturnrequired=0-turn_amount
+	  end
+	end
      end
     end
     if events['robot_scanned'].empty?
