@@ -27,6 +27,11 @@ end
 # 5. Motion compensation for direction of our travel
 # 6- Split the gun and target control out into a seperate module
 
+# Two current problems
+# 1. The radar doesn't attempt to track the motion compensated position
+# 2. The system doesn't drop the use of estimated positions when the radar gets a rough lock elsewhere
+# 3. We don't keep using our dx,dy every turn once calculated
+
 class Runner
   include Robot
 
@@ -46,16 +51,48 @@ class Runner
 	# puts("With angle calculated as #{@enemyx},#{@enemyy} distance #{@enemydistance}")
   end
 
-  def calc_gun_angle sweep_size
-	if @estimatedpositionx>0 and @estimatedpositiony>0
-	  dx=@estimatedpositionx-x
-	  dy=y-@estimatedpositiony
-	  puts("Using #{@estimatedpositionx},#{@estimatedpositiony} instead of #{@enemyx},#{@enemyy}")
+  def calc_gun_angle(sweep_size,radarmode)
+      at=time-@estimatereft
+      if (at>5) 
+	at=5
+      end
+      if radarmode==0
+	if @estimatereft>0  
+	  ax=@estimaterefx+(@enemydx*at*(@enemydistance/35))
+	  ay=@estimaterefy+(@enemydy*at*(@enemydistance/35))
+	  # puts("dx,dy = #{@enemydx},#{@enemydy} time = #{at} distance= #{@enemydistance/40}")
+	  # puts("Using #{ax},#{ay} instead of #{@enemyx},#{@enemyy} for gun")
 	else
-	  # Using our position x and y and the enemyx and enemyy positions calculate the angle the gun needs to be pointing
-	  dx=@enemyx-x
-	  dy=y-@enemyy
+	  # Using our sensed position
+	  ax=@enemyx
+	  ay=@enemyy
 	end
+      else
+	# We dont want to calculate for bullet time of flight here, so just use referenec position + time*single step
+	if radarmode==1 and @estimatereft>0
+	  ax=@estimaterefx+(@enemydx*at)
+	  ay=@estimaterefy+(@enemydy*at)
+	  # puts("Using #{ax},#{ay} instead of #{@enemyx},#{@enemyy} for radar")
+	else
+	  # Using our sensed position
+	  ax=@enemyx
+	  ay=@enemyy
+	end
+      end
+      if ax<0
+	ax=0
+      end
+      if ax>battlefield_width
+	ax=battlefield_width
+      end
+      if ay<0
+	ay=0
+      end
+      if ay>battlefield_height
+	ay=battlefield_height
+      end
+	dx=ax-x
+	dy=y-ay
 	if sweep_size > 0
 	  sprayt=(time.to_i%(sweep_size*2))
 	  if sprayt<sweep_size * 0.5
@@ -112,9 +149,14 @@ class Runner
 	@direction = 0
 	@locked = 0
 	@enemyx=0
-	@estimatedpositionx=0
-	@estimatedpositiony=0
 	@enemyy=0
+
+	@enemydx=0
+	@enemydy=0
+	@estimaterefx=0
+	@estimaterefy=0
+	@estimatereft=0
+
 	@targetangle=0
 	@lostcount=0
 	@mission_phase=0
@@ -127,7 +169,8 @@ class Runner
     if @targetting==5
       say("L")
     else
-      say("-")
+      # say("-")
+      say(@targetting)
     end
     radar_control(events)
     target_control(events)
@@ -166,13 +209,13 @@ class Runner
 	end
     else
 	if @targetting > 0
-	  # if @targetting==5 
+	  if @targetting==5 
 		# Try and point the gun in the exact direction requested
-		calc_gun_angle(2)
-	  # else
-	        # We don't have a precise lock, so spray around the target
-		# calc_gun_angle(5+@lostcount/4)
-	  # end
+		calc_gun_angle(10,0)
+	  else
+	        # We don't have a precise lock, so spray around the target a bit more
+		calc_gun_angle(15,0)
+	  end
 	  # puts("Target angle #{@targetangle} Cur Heading #{gun_heading}")
 	  turn_amount=(gun_heading-@targetangle).abs
 	  if turn_amount>2
@@ -188,7 +231,7 @@ class Runner
 	  end
 	end
     end
-    fire 0.3
+    fire 0.1
   end
   
   def sweepalter
@@ -210,6 +253,15 @@ class Runner
     end
   end
   
+  def clear_estimates
+	@estimaterefx=0
+	@estimaterefy=0
+	@estimatereft=0
+	
+	@enemydx=0
+	@enemydy=0
+  end
+  
   def store_known_position
     posobj={}
     posobj[:x]=@enemyx
@@ -223,34 +275,45 @@ class Runner
       @knownpositions.shift
     end
     
-    #puts("Current known positions")
-    #puts @knownpositions
+    # puts("Current known positions")
+    # puts @knownpositions
     
     # Work out the dx and dy if we have at least 4 positions
     if @knownpositions.count>4
 	deltapos=[]
 	for i in 1..4
 	  dposobj={}
-	  dposobj[:x]=@knownpositions[i][:x]-@knownpositions[i-1][:x]
-	  dposobj[:y]=@knownpositions[i][:y]-@knownpositions[i-1][:y]
-	  dposobj[:t]=@knownpositions[i][:t]-@knownpositions[i-1][:t]
+	  dposobj[:x]=(@knownpositions[i][:x]-@knownpositions[i-1][:x]).to_f
+	  dposobj[:y]=(@knownpositions[i][:y]-@knownpositions[i-1][:y]).to_f
+	  dposobj[:t]=(@knownpositions[i][:t]-@knownpositions[i-1][:t]).to_f
 	  dposobj[:h]=Math.sqrt((dposobj[:x]*dposobj[:x])+(dposobj[:y]*dposobj[:y]))/dposobj[:t]
-	  deltapos << dposobj
+	  if dposobj[:h]<8
+	    deltapos << dposobj
+	  end
 	end
-	#puts("Deltas")
-	#puts deltapos
-	#puts("Sorted deltas")
-	deltapos.sort! { |ax,ay| ax[:h] <=> ay[:h] }
-	#puts deltapos
-	# Take the average of the first two (i.e. the two smallest deltas) - may change this to be the most common
-	tdx = ((deltapos[0][:x]/deltapos[0][:t])+(deltapos[1][:x]/deltapos[1][:t]))/2
-	tdy = ((deltapos[0][:y]/deltapos[0][:t])+(deltapos[1][:y]/deltapos[1][:t]))/2
-	# Need to use distance here - 10 ticks for bullets to travel 400, to 40 pixels per tick travel
-	@estimatedpositionx=@enemyx+(tdx*@enemydistance/40)
-	@estimatedpositiony=@enemyy+(tdy*@enemydistance/40)
+	if deltapos.count>2
+	  #puts("Deltas")
+	  #puts deltapos
+	  # deltapos.sort! { |ax,ay| ax[:h] <=> ay[:h] }
+	  # puts("Sorted deltas")
+	  # puts deltapos
+	  # Take the average of the first two (i.e. the two smallest deltas) - may change this to be the most common
+	  # tdx = ((deltapos[0][:x]/deltapos[0][:t])+(deltapos[1][:x]/deltapos[1][:t]))/2
+	  # tdy = ((deltapos[0][:y]/deltapos[0][:t])+(deltapos[1][:y]/deltapos[1][:t]))/2
+	  tdx = ((deltapos[deltapos.count-1][:x]/deltapos[deltapos.count-1][:t])+(deltapos[deltapos.count-2][:x]/deltapos[deltapos.count-2][:t]))/2
+	  tdy = ((deltapos[deltapos.count-1][:y]/deltapos[deltapos.count-1][:t])+(deltapos[deltapos.count-2][:y]/deltapos[deltapos.count-2][:t]))/2
+	
+	  @estimaterefx=@enemyx
+	  @estimaterefy=@enemyy
+	  @estimatereft=time
+	
+	  @enemydx=tdx
+	  @enemydy=tdy
+	
+	  # puts("Found new dx,dy to be #{tdx},#{tdy}")
+	end
     else
-      	@estimatedpositionx=0
-	@estimatedpositiony=0
+      clear_estimates
     end
     
     
@@ -287,7 +350,8 @@ class Runner
       if events['robot_scanned'].empty?
 	# Turn quickly
 	@radarturnrequired=30
-	@knownpositions=[]
+	# @knownpositions=[]
+	clear_estimates
       else
 	# Store the start location and now sweep more slowly
 	@sweepsize=28
@@ -352,7 +416,7 @@ class Runner
       # targetting 4 means we've lost contact going backwards and are now waiting for contact again going forwards with a smaller angle - this then jumps to state 2
       if events['robot_scanned'].empty?
 	# Not found anything - keep turning
-	if @lostcount<8
+	if @lostcount<13
 	  @radarturnrequired=@sweepsize
 	else
 	  # We've lost it completly - go back to targetting of 0
@@ -369,16 +433,59 @@ class Runner
       end
     when 5
      if events['robot_scanned'].empty?
-       # We've lose the target - start widening our scan
+       # We've lost the target - start widening our scan about the estimated position
+       if @lostcount<5
+	if @estimatereft>0
+	  calc_gun_angle(0,2)
+	  minangle=@targetangle
+	  calc_gun_angle(0,1)
+	  maxangle=@targetangle
+	  # puts("Min angle #{minangle} max angle #{maxangle} radar #{radar_heading}")
+	  if maxangle.angle_anticlockwiseof(minangle)
+	    # We estimate we need to keep moving in a positive direction
+	    if maxangle.angle_anticlockwiseof(radar_heading)
+	      # The radar is already past the estimated point - we want to scan backwards
+	      @radarturnrequired=-5
+	    else
+	      # The radar is before the estimate point - scan forwards
+	      @radarturnrequired=5
+	    end
+	  else
+	    # We estimate we need to keep moving in a negative direction
+	    if minangle.angle_anticlockwiseof(radar_heading)
+	      # The radar is already past the estimated point - we want to scan forwards
+	      @radarturnrequired=4
+	    else
+	      # The radar is before the estimate point - scan backwards
+	      @radarturnrequired=-4
+	    end
+	  end
+	else
+	  # We don't have a valid estimated position - use the old widening spray aproach
+	  calc_gun_angle(@lostcount*2,2)
+          turn_amount=(radar_heading-@targetangle).abs
+	  if (turn_amount>30)
+	    turn_amount=30
+	  end
+	  if radar_heading.angle_anticlockwiseof(@targetangle)
+	     @radarturnrequired=turn_amount
+	  else
+	     @radarturnrequired=0-turn_amount
+	  end 
+	end
+ 	# puts("Turn calc #{@radarturnrequired}")
+       else
 	@sweepdir=1
 	@radarturnrequired=@sweepsize
 	@targetting=4
+       end
      else
        # We've still got sight of the target
 	@startangle=@previousradarheading.to_i
 	@endangle=radar_heading.to_i
 	calc_enemy_pos()
-	calc_gun_angle(2)
+	store_known_position
+	calc_gun_angle(2,1)
 	turn_amount=(radar_heading-@targetangle).abs
 	if turn_amount>2
 	  # puts("TA: #{turn_amount}")
