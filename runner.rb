@@ -19,18 +19,9 @@ class Numeric
 	end
 end
 
-# Changes to make
-# 1- Gun actually sprays about a centre angle, rather than directly at it
-# 2- When we loose lock (or don't acquire it) we sweep about the target point
-# 3. Change the calc gun angle to take parameters
-# 4. When we find a target follow it
-# 5. Motion compensation for direction of our travel
-# 6- Split the gun and target control out into a seperate module
-
-# Two current problems
-# 1. The radar doesn't attempt to track the motion compensated position
-# 2. The system doesn't drop the use of estimated positions when the radar gets a rough lock elsewhere
-# 3. We don't keep using our dx,dy every turn once calculated
+# Stuff to do before monday
+# 1. Put in movement changer, so it will change to going sideways after a bit (perhaps swap every 15 damage)
+# 2. Improve the radar sweeping
 
 class Runner
   include Robot
@@ -305,8 +296,11 @@ class Runner
       @knownpositions.shift
     end
     
-    # TODO Also remove really old positions (older than 120 ticks - again - no point keeping)
-    
+    # TODO Change to a lower number when we improve the radar response
+    while @knownpositions.count>1 and (time-@knownpositions[0][:t])>200 do
+      @knownpositions.shift
+    end
+      
     # puts("Storing position #{@enemyx},#{@enemyy} @ #{time}")
     # puts("Current known positions")
     # puts @knownpositions
