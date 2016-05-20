@@ -445,21 +445,22 @@ class Runner
 	    # We estimate we need to keep moving in a positive direction
 	    if maxangle.angle_anticlockwiseof(radar_heading)
 	      # The radar is already past the estimated point - we want to scan backwards
-	      @radarturnrequired=-5
+	      @radarturnrequired=-5.4
 	    else
 	      # The radar is before the estimate point - scan forwards
-	      @radarturnrequired=5
+	      @radarturnrequired=5.4
 	    end
 	  else
 	    # We estimate we need to keep moving in a negative direction
 	    if minangle.angle_anticlockwiseof(radar_heading)
 	      # The radar is already past the estimated point - we want to scan forwards
-	      @radarturnrequired=4
+	      @radarturnrequired=5.5
 	    else
 	      # The radar is before the estimate point - scan backwards
-	      @radarturnrequired=-4
+	      @radarturnrequired=-5.5
 	    end
 	  end
+	  # puts("Turn calc A #{@radarturnrequired}")
 	else
 	  # We don't have a valid estimated position - use the old widening spray aproach
 	  calc_gun_angle(@lostcount*2,2)
@@ -467,18 +468,22 @@ class Runner
 	  if (turn_amount>30)
 	    turn_amount=30
 	  end
+	  if turn_amount<4
+	     turn_amount=4
+	  end
 	  if radar_heading.angle_anticlockwiseof(@targetangle)
 	     @radarturnrequired=turn_amount
 	  else
 	     @radarturnrequired=0-turn_amount
 	  end 
-	end
- 	# puts("Turn calc #{@radarturnrequired}")
+	  # puts("Turn calc B #{@radarturnrequired}")
+ 	end
        else
 	@sweepdir=1
 	@radarturnrequired=@sweepsize
 	@targetting=4
        end
+	# puts("L: #{@radarturnrequired}")
      else
        # We've still got sight of the target
 	@startangle=@previousradarheading.to_i
@@ -488,7 +493,6 @@ class Runner
 	calc_gun_angle(2,1)
 	turn_amount=(radar_heading-@targetangle).abs
 	if turn_amount>2
-	  # puts("TA: #{turn_amount}")
 	  if (turn_amount>30)
 	    turn_amount=30
 	  end
@@ -497,6 +501,9 @@ class Runner
 	  else
 	     @radarturnrequired=0-turn_amount
 	  end
+	  # puts("F: #{@radarturnrequired}")
+	else
+	  # puts("NT: #{@radarturnrequired}")
 	end
      end
     end
