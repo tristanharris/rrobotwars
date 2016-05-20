@@ -20,7 +20,7 @@ class Numeric
 end
 
 # Stuff to do before monday
-# 1. Put in movement changer, so it will change to going sideways after a bit (perhaps swap every 15 damage)
+# 1. Put in movement changer, so it will change to going sideways after a bit (perhaps swap every 15 damage) - actually, just do figure of 8
 # 2. Improve the radar sweeping
 
 class Runner
@@ -157,7 +157,9 @@ class Runner
 
 	@targetangle=0
 	@lostcount=0
-	@mission_phase=0
+	@mission_phase=10
+	
+	@somerandomcounter=0
 	
 	@fireconfidence=0
 	# debuggingenabled(1)
@@ -182,13 +184,23 @@ class Runner
     when 0
       lineup
     when 1
-      mission_phase_one(events)
+      findmidx(events)
     when 2
       lineup
     when 3
-      mission_phase_three(events)
+      up_and_down(events)
     when 4
-      mission_phase_four(events)
+      follow_target(events)
+    when 10
+      lineup
+    when 11
+      findmidx(events)
+    when 12
+      findmidy(events)
+    when 13
+      figure_of_8_lineup(events)
+    when 14
+      figure_of_8_main(events)
     end
     doactions
     # STDIN::gets
@@ -559,8 +571,8 @@ class Runner
     
   end
   
-  def mission_phase_one events
-    # Drive to middle of screen
+  def findmidx events
+    # Drive to middle x of screen
     # check if we are in the middle
     if (x>(battlefield_width/2)-10 and x<(battlefield_width/2)+10) or @locked==2
       if velocity==0
@@ -598,16 +610,56 @@ class Runner
     end
   end
   
+  def findmidy events
+    # Drive to middle y of screen
+    # check if we are in the middle
+    if (y>(battlefield_height/2)-10 and y<(battlefield_height/2)+10) or @locked==2
+      if velocity==0
+	@locked=0
+	@mission_phase=@mission_phase+1
+      else
+	@locked=2
+      end
+    end
+    if @locked==0
+      if y < battlefield_height/2
+	# We need to drive right (angle zero)
+	if heading.to_i != 270
+	  @tankturnrequired=10
+	else
+	  @locked=1
+	end
+      end
+      if y > battlefield_height/2
+	# We need to drive left (angle 180)
+	if heading.to_i !=90
+	  @tankturnrequired=10
+	else
+	  ~@locked=1
+	end
+      end
+    end
+    if @locked==1
+      if velocity != 7
+	accelerate(1)
+      end
+    end
+    if @locked==2
+      stop
+    end
+  end
+
   def lineup
     if heading.to_i % 10 != 0
 	@tankturnrequired=1
     else
 	@locked=0
+	@somerandomcounter=0
 	@mission_phase=@mission_phase+1
     end
   end
 
-  def mission_phase_three events
+  def up_and_down events
     # Change direction if necessary
     if @direction == 0
         if heading.to_i != 90
@@ -634,6 +686,10 @@ class Runner
 	else
 		# Turn around
 		@direction = 2
+		@somerandomcounter+=1
+		if @somerandomcounter > 3
+		  @mission_phase=10
+		end
 	end
     end
     if @direction == 2 and heading.to_i == 270
@@ -654,7 +710,7 @@ class Runner
     end
   end
   
-  def mission_phase_four events
+  def follow_target events
     # Follow a target if we have mission_phase_one
     if @targetting == 0
       @mission_phase = 0
@@ -687,16 +743,107 @@ class Runner
 	end
     end    
   end
+  
+  def figure_of_8_lineup events
+    # Whilst stationary in the middle point ourselves at an angle of 180+45
+    # Aim for 180+45 degrees
+    if heading!=180+45
+      turn_amount=(heading-(180+45)).abs
+      if (turn_amount>10)
+	      turn_amount=10
+      end
+      if heading.angle_anticlockwiseof(180+45)
+	      @tankturnrequired=turn_amount
+      else
+	      @tankturnrequired=0-turn_amount
+      end
+      # puts("Lining up - turnrequired #{@tankturnrequired} current heading #{heading}")
+    else
+      @mission_phase=@mission_phase+1
+    end
+  end
+  
+  def figure_of_8_main events
+    # When left of middle then turn negagtive else turn positive
+    accelerate(1)
+    if @locked==0 or @locked==1
+      turn_amount=(((x-(battlefield_width/2)).abs)/battlefield_width)*10
+      if x < battlefield_width/2
+	@tankturnrequired=0-turn_amount
+	if @locked==1
+	  @locked=0
+	  @somerandomcounter+=1
+	  if @somerandomcounter>5
+	    # Although neater this takes the win yeild right down
+	    # @locked=2
+	    @somerandomcounter=0
+	  end
+	end
+      else
+	if @locked==0
+	  @locked=1
+	  @somerandomcounter+=1
+	  if @somerandomcounter>3
+	    # See above
+	    # @locked=2
+	    @somerandomcounter=0
+	  end
+	end
+	@tankturnrequired=turn_amount
+      end
+      # Go back to the up and down thing if we reach the edge
+      if y<battlefield_height/10
+	@mission_phase=10
+      end
+      if y>battlefield_height-(battlefield_height/10)
+	@mission_phase=10
+      end
+    else 
+      turn_amount=(((y-(battlefield_height/2)).abs)/battlefield_height)*10
+      if y < battlefield_height/2
+	@tankturnrequired=0-turn_amount
+	if @locked==3
+	  @locked=2
+	  @somerandomcounter+=1
+	  if @somerandomcounter>5
+	    @locked=2
+	    @somerandomcounter=0
+	  end
+	end
+      else
+	if @locked==2
+	  @locked=3
+	  @somerandomcounter+=1
+	  if @somerandomcounter>3
+	    @locked=0
+	    @somerandomcounter=0
+	  end
+	end
+	@tankturnrequired=turn_amount
+      end
+      # Go back to the up and down thing if we reach the edge
+      if x<battlefield_width/10
+	@mission_phase=10
+      end
+      if x>battlefield_width-(battlefield_width/10)
+	@mission_phase=10
+      end
+    end
+    
+    # puts("Doing turn - turnrequired #{@tankturnrequired} current heading #{heading}")
+  end
+
+  def doactions
+    # puts("Tank turn #{@tankturnrequired} Gun turn #{@gunturnrequired} Radar turn #{@radarturnrequired}")
+    gt = @gunturnrequired-@tankturnrequired
+    rt = @radarturnrequired-(@gunturnrequired+@tankturnrequired)
+    turn(@tankturnrequired)
+    turn_gun(gt)
+    turn_radar(rt) 
+    @tankturnrequired=0
+    @gunturnrequired=0
+    @radarturnrequired=0
+  end
+
 end
 
-def doactions
-  # puts("Tank turn #{@tankturnrequired} Gun turn #{@gunturnrequired} Radar turn #{@radarturnrequired}")
-  gt = @gunturnrequired-@tankturnrequired
-  rt = @radarturnrequired-(@gunturnrequired+@tankturnrequired)
-  turn(@tankturnrequired)
-  turn_gun(gt)
-  turn_radar(rt) 
-  @tankturnrequired=0
-  @gunturnrequired=0
-  @radarturnrequired=0
-end
