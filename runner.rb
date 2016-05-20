@@ -167,6 +167,8 @@ class Runner
 	@targetangle=0
 	@lostcount=0
 	@mission_phase=0
+	
+	@fireconfidence=0
 	# debuggingenabled(1)
 
 	@knownpositions=[]
@@ -203,6 +205,12 @@ class Runner
   
   def target_control events
     # Deal with pointing the gun at the target and shooting
+    if (@fireconfidence>0)
+      fire 0.5
+    else
+      fire 0.1
+    end
+    @fireconfidence=0
     if @targetting == 0
 	if @direction==1 
 		if gun_heading.to_i != 0
@@ -223,7 +231,14 @@ class Runner
 	  if @targetting==5 
 		# Try and point the gun in the exact direction requested
 		if @estimatereft>0
-		  calc_gun_angle(5,0)
+		  at=time-@estimatereft
+		  if (at>1) and (at<5)
+		    @fireconfidence=1
+		  end
+		  if (at>15)
+		    at=15
+		  end
+		  calc_gun_angle(at,0)
 		else
 		  calc_gun_angle(10,0)
 		end
@@ -247,7 +262,6 @@ class Runner
 	  end
 	end
     end
-    fire 0.1
   end
   
   def sweepalter
