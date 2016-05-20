@@ -1,5 +1,7 @@
 require 'rrobots'
 
+require_relative 'lib/angle'
+
 class React
   include Robot
 
@@ -8,8 +10,16 @@ class React
   def init
     @pending = {}
     turn_radar 2
-    turn_to(90, 2)
+    turn_to(20, 2)
     accelerate_to 8
+  end
+
+  def heading
+    Angle.new(-super, 90)
+  end
+
+  def turn(value)
+    super(-value)
   end
 
   def tick events
@@ -25,18 +35,23 @@ class React
   end
 
   def check_walls
-    if velocity != 0 && pending[:turn].nil?
+    walls = []
+    walls << :north if y <= size
+    walls << :south if y >= battlefield_height - size
+    walls << :east  if x >= battlefield_width - size
+    walls << :west  if x <= size
+    if velocity != 0 && pending[:turn].nil? && !walls.empty?
       bounce = 0
-      if (x <= size && heading > 270) ||
-        (x >= battlefield_width - size && heading > 90) ||
-        (y <= size && heading < 180) ||
-        (y >= battlefield_width - size && heading > 180)
+      if (walls[0] == :west && heading == :south) ||
+        (walls[0] == :east && heading == :north) ||
+        (walls[0] == :north && heading == :west) ||
+        (walls[0] == :south && heading == :east)
           bounce = -1
       end
-      if (x <= size && heading < 270) ||
-        (x >= battlefield_width - size && heading < 90) ||
-        (y <= size && heading > 180) ||
-        (y >= battlefield_width - size && heading < 180)
+      if (walls[0] == :west && heading == :north) ||
+        (walls[0] == :east && heading == :south) ||
+        (walls[0] == :north && heading == :east) ||
+        (walls[0] == :south && heading == :west)
           bounce = 1
       end
       turn_to(heading + 90 * bounce, 10) unless bounce == 0
@@ -50,9 +65,9 @@ class React
         finish :turn
       else
         step = pending[:turn][:step]
-        dir = ((heading - angle) % 360 - (angle - heading) % 360) <=> 0
-        step = [step, (heading - angle).abs].min
-        turn dir * step
+        quick = heading.quickest_to(angle)
+        step = [step, quick.angle].min
+        turn quick.direction * step
       end
     end
     if pending[:accelerate]
@@ -67,7 +82,7 @@ class React
   end
 
   def turn_to(angle, step)
-    @pending[:turn] = {angle: angle % 360, step: step}
+    @pending[:turn] = {angle: angle, step: step}
   end
 
   def accelerate_to(speed)
