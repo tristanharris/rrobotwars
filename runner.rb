@@ -53,14 +53,21 @@ class Runner
 
   def calc_gun_angle(sweep_size,radarmode)
       at=time-@estimatereft
-      if (at>5) 
-	at=5
+      if (at>6) 
+	at=((at-6.0)/2.0)+6
+	if (at>12)
+	  at=((at-12.0)/2.0)+12
+	  if (at>20)
+	    at=20
+	  end
+	end
       end
       if radarmode==0
-	if @estimatereft>0  
-	  ax=@estimaterefx+(@enemydx*at*(@enemydistance/35))
-	  ay=@estimaterefy+(@enemydy*at*(@enemydistance/35))
-	  # puts("dx,dy = #{@enemydx},#{@enemydy} time = #{at} distance= #{@enemydistance/40}")
+	if @estimatereft>0
+	  distanceestimate=Math::hypot(@estimaterefx+(@enemydx*at), @estimaterefy+(@enemydy*at))
+	  ax=@estimaterefx+(@enemydx*at*(distanceestimate/45))
+	  ay=@estimaterefy+(@enemydy*at*(distanceestimate/45))
+	  # puts("dx,dy = #{@enemydx},#{@enemydy} time = #{at} distance= #{distanceestimate/45}")
 	  # puts("Using #{ax},#{ay} instead of #{@enemyx},#{@enemyy} for gun")
 	else
 	  # Using our sensed position
@@ -167,7 +174,11 @@ class Runner
     end
     # say("#{@direction} A #{@locked} S #{@startpos} E #{@endpos} D #{@enddistance} G #{gun_heading} R #{radar_heading} V #{velocity} ")
     if @targetting==5
-      say("L")
+      if @estimatereft>0
+	say("+")
+      else
+	say("-")
+      end
     else
       # say("-")
       say(@targetting)
@@ -211,11 +222,16 @@ class Runner
 	if @targetting > 0
 	  if @targetting==5 
 		# Try and point the gun in the exact direction requested
-		calc_gun_angle(10,0)
+		if @estimatereft>0
+		  calc_gun_angle(5,0)
+		else
+		  calc_gun_angle(10,0)
+		end
 	  else
 	        # We don't have a precise lock, so spray around the target a bit more
 		calc_gun_angle(15,0)
 	  end
+	  calc_gun_angle(0,0)
 	  # puts("Target angle #{@targetangle} Cur Heading #{gun_heading}")
 	  turn_amount=(gun_heading-@targetangle).abs
 	  if turn_amount>2
@@ -271,29 +287,36 @@ class Runner
     @knownpositions << posobj
     
     # Only store 5 positions - probably no point storing more
-    if @knownpositions.count>5
+    if @knownpositions.count>10
       @knownpositions.shift
     end
     
+    # TODO Also remove really old positions (older than 120 ticks - again - no point keeping)
+    
+    # puts("Storing position #{@enemyx},#{@enemyy} @ #{time}")
     # puts("Current known positions")
     # puts @knownpositions
     
     # Work out the dx and dy if we have at least 4 positions
     if @knownpositions.count>4
 	deltapos=[]
-	for i in 1..4
+	for i in 1..(@knownpositions.count-1)
 	  dposobj={}
 	  dposobj[:x]=(@knownpositions[i][:x]-@knownpositions[i-1][:x]).to_f
 	  dposobj[:y]=(@knownpositions[i][:y]-@knownpositions[i-1][:y]).to_f
 	  dposobj[:t]=(@knownpositions[i][:t]-@knownpositions[i-1][:t]).to_f
-	  dposobj[:h]=Math.sqrt((dposobj[:x]*dposobj[:x])+(dposobj[:y]*dposobj[:y]))/dposobj[:t]
-	  if dposobj[:h]<8
+	  dposobj[:ax]=dposobj[:x]/dposobj[:t]
+	  dposobj[:ay]=dposobj[:y]/dposobj[:t]
+	  dposobj[:h]=Math::hypot(dposobj[:x],dposobj[:y])/dposobj[:t]
+	  if dposobj[:h]<10
 	    deltapos << dposobj
 	  end
 	end
 	if deltapos.count>2
-	  #puts("Deltas")
-	  #puts deltapos
+	  # puts("Current known positions")
+	  # puts @knownpositions
+	  # puts("Deltas")
+	  # puts deltapos
 	  # deltapos.sort! { |ax,ay| ax[:h] <=> ay[:h] }
 	  # puts("Sorted deltas")
 	  # puts deltapos
@@ -310,12 +333,13 @@ class Runner
 	  @enemydx=tdx
 	  @enemydy=tdy
 	
-	  # puts("Found new dx,dy to be #{tdx},#{tdy}")
+	  # puts("Found new dx,dy to be #{tdx},#{tdy} with a speed of #{Math::hypot(tdx,tdy)}")
 	end
     else
       clear_estimates
     end
     
+    # STDIN::gets
     
   end
   
