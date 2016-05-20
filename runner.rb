@@ -436,9 +436,9 @@ class Runner
        # We've lost the target - start widening our scan about the estimated position
        if @lostcount<5
 	if @estimatereft>0
-	  calc_gun_angle(0,2)
+	  calc_gun_angle(4,2)
 	  minangle=@targetangle
-	  calc_gun_angle(0,1)
+	  calc_gun_angle(4,1)
 	  maxangle=@targetangle
 	  # puts("Min angle #{minangle} max angle #{maxangle} radar #{radar_heading}")
 	  if maxangle.angle_anticlockwiseof(minangle)
@@ -497,12 +497,18 @@ class Runner
 	    turn_amount=30
 	  end
 	  if radar_heading.angle_anticlockwiseof(@targetangle)
-	     @radarturnrequired=turn_amount
-	  else
 	     @radarturnrequired=0-turn_amount
+	  else
+	     @radarturnrequired=turn_amount
 	  end
 	  # puts("F: #{@radarturnrequired}")
 	else
+	  # In this case just use the old radar heading as our new target
+	  if @previousradarheading.angle_anticlockwiseof(radar_heading) 
+	    @radarturnrequired=0-2
+	  else
+	    @radarturnrequired=2
+	  end
 	  # puts("NT: #{@radarturnrequired}")
 	end
      end
