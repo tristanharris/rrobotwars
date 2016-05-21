@@ -12,14 +12,17 @@ class Hunter
   # Phase 1: Move round the outside of the screen 
   #
 
-
   attr :pending
   
   def init
     @timer = 0
     @found_enemy = false
     @pending = {}
+    @pending[:turn_gun] = true
     @halt = false;
+
+    @enemy_x = 0
+    @enemy_y = 0
     
     @top_left = {x: size, y: size}
     @top_right = {x: battlefield_width - size, y: size}
@@ -33,6 +36,10 @@ class Hunter
     @phase1_complete = false
 
     @turn_speed = 10
+    @gun_speed = 10
+
+    @enemy_positions = []
+    @enemy_lock = false
   end
 
   def got_hit
@@ -59,9 +66,9 @@ class Hunter
     return events['robot_scanned'][0][0]
   end
 
-  def get_enemy_xy
-    enemy_x = x + Math.cos((get_angle * Math::PI) / 180) * get_distance_to_enemy
-    enemy_y = y - Math.sin((get_angle * Math::PI) / 180) * get_distance_to_enemy
+  def calculate_enemy_pos heading, distance
+    enemy_x = x + Math.cos((heading * Math::PI) / 180) * distance
+    enemy_y = y - Math.sin((heading * Math::PI) / 180) * distance
     return {x: enemy_x, y: enemy_y}
   end
 
@@ -79,25 +86,24 @@ class Hunter
   def get_enemy_location
     # estimate the x and y position of our enemy
     enemy_pos = get_enemy_xy
+    @enemy_x = enemy_pos[:x]
+    @enemy_y = enemy_pos[:y]
     # with that info we can calculate the angle we need to shoot at and send our penging gun angle to that 
-    pending[:gun_angle] = calculate_angle(enemy_pos)
+    pending[:turn_gun] = calculate_angle(enemy_pos)
     # set found enemy to be false, we don't want to continue calculating these
     @found_enemy = false
   end
 
   def check_radar
-    # just turn our gun, if we do find something our gun will be pointing at it already.
-    turn_gun(10)
-    # set our gun lock to false.. we dont really want to be spraying all the time
-    @gun_lock = false;
-
+    
     if found_enemy then
-      # reset our timer
-      @timer = 0
-      # set our found enemy bool to be true 
-      # we check this is true in our run_actions function
-      @found_enemy = true
+      @enemy_pos = calculate_enemy_pos(radar_heading, get_distance_to_enemy)
+      @enemy_x = @enemy_pos[:x]
+      @enemy_y = @enemy_pos[:y]
+      @enemy_lock = true
     end
+    turn_radar(10)
+    #say "#{@enemy_x},#{@enemy_y}"
   end
 
   def within a, b, threshold
@@ -151,14 +157,11 @@ class Hunter
   end
 
   def run_pending
-    if @pending[:gun_angle] then
-      if @pending[:gun_angle] > gun_heading then
-        turn_gun(5)
-        pending[:gun_angle] = nil if within(gun_heading, @pending[:gun_angle], 10)
-        @gun_lock = true if pending[:angle].nil?
-      else
-        turn_gun(-5)
-      end
+    if @pending[:turn_gun] then
+      @angle = calculate_angle({x: @enemy_x, y: @enemy_y} )
+      direction = ((gun_heading - @angle) % 360 - (@angle - heading) % 360) <=> 0
+      step = [@gun_speed, (gun_heading - @angle).abs].min
+      turn_gun(direction * step)
     end
     # we've been told to move somewhere...
     if @pending[:dest] then
@@ -183,15 +186,11 @@ class Hunter
       end
      
     end
-    if @pending[:dest] then
-
-    end
   end
 
   def run_actions
-    check_radar if @timer >= 25
-    get_enemy_location if @found_enemy == true
-    fire(0.3) if @gun_lock == true
+    check_radar
+    fire(0.3)
     stop if @halt == true;
     @halt = false if speed == 0
     run_pending
