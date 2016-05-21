@@ -169,12 +169,9 @@ class Hunter
       # hold on to your hats
       # OK. first of all we need to check if we are facing the x and y coord's or not
       if heading != @dest_angle then
-        @turn_speed = 1 if (heading - @dest_angle).abs < 15
-        if heading < @dest_angle then
-          turn(@turn_speed)
-        else
-          turn(-@turn_speed)
-        end
+        direction = ((heading - @dest_angle) % 360 - (@dest_angle - heading) % 360) <=> 0
+        step = [@turn_speed, (heading - @dest_angle).abs].min
+        turn(direction * step)
       end
       if heading == @dest_angle then
         accelerate(1)
@@ -188,9 +185,13 @@ class Hunter
     end
   end
 
+  def fire_gun power
+    fire(power)
+  end
+
   def run_actions
     check_radar
-    fire(0.3)
+    fire_gun(0.3)
     stop if @halt == true;
     @halt = false if speed == 0
     run_pending
