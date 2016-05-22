@@ -209,7 +209,11 @@ class Runner
   def target_control events
     # Deal with pointing the gun at the target and shooting
     if (@fireconfidence>0)
-      fire 0.5
+      if @enemydistance<250
+	fire 3
+      else
+	fire 1
+      end
     else
       fire 0.1
     end
@@ -238,18 +242,20 @@ class Runner
 		  if (at>1) and (at<5)
 		    @fireconfidence=1
 		  end
+		  # @fireconfidence=1
 		  if (at>15)
 		    at=15
 		  end
-		  calc_gun_angle(at,0)
+		  # calc_gun_angle(at,0)
+		  calc_gun_angle(0,0)
 		else
 		  calc_gun_angle(10,0)
 		end
 	  else
 	        # We don't have a precise lock, so spray around the target a bit more
-		calc_gun_angle(15,0)
+		calc_gun_angle(12,0)
 	  end
-	  calc_gun_angle(0,0)
+	  # calc_gun_angle(0,0)
 	  # puts("Target angle #{@targetangle} Cur Heading #{gun_heading}")
 	  turn_amount=(gun_heading-@targetangle).abs
 	  if turn_amount>2
