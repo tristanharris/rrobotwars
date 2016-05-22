@@ -385,6 +385,9 @@ class Runner
       # 8 = 93
       # 10 = 89
       if (radar_heading.angle_subtract(@previousradarheading)).abs<8
+	@startangle=@previousradarheading.to_i
+	@endangle=radar_heading.to_i
+	calc_enemy_pos()
 	@targetting=5
 	store_known_position
 	# puts("Locking on")
