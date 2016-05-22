@@ -215,7 +215,11 @@ class Runner
 	fire 1
       end
     else
-      fire 0.1
+      if @enemydistance<100
+	fire 2
+      else
+	fire 0.1
+      end
     end
     @fireconfidence=0
     if @targetting == 0
