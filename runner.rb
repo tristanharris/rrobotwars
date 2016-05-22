@@ -277,10 +277,7 @@ class Runner
       end
     else
       # Means shrinking the sweep size
-      if @sweepsize.to_i<4
-	@targetting=5
-	store_known_position
-      else
+      if @sweepsize.to_i>=4
 	@sweepsize/=2
       end
     end
@@ -382,6 +379,17 @@ class Runner
     else
       tfound=1
       tdist=events['robot_scanned'][0][0].to_i
+      # Check whether we had a narrow scan angle and can jump straight to locked
+      # 4 = 78
+      # 7 = 83
+      # 8 = 93
+      # 10 = 89
+      if (radar_heading.angle_subtract(@previousradarheading)).abs<8
+	@targetting=5
+	store_known_position
+	# puts("Locking on")
+      end
+      
     end
 
     # puts("Pre:")
