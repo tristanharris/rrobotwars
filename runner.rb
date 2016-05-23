@@ -182,10 +182,20 @@ class Runner
       # say("-")
       say(@targetting)
     end
-    if ((time-200)%1000)==0
-      @robotcountpending=7
-      @robotcountstartangle=0
-      @robotcounttotal=0
+    if @mission_phase<15
+      # Scan very infrequently to avoid burden
+      if ((time-200)%3000)==0
+	@robotcountpending=7
+	@robotcountstartangle=0
+	@robotcounttotal=0
+      end
+    else
+      # Scan more frequently so we can leave it mode as soon as possible
+      if ((time-200)%500)==0
+	@robotcountpending=7
+	@robotcountstartangle=0
+	@robotcounttotal=0
+      end
     end
     if @robotcountpending>0 and @targetting<4
       # Perform a robot count instead of the normal radar scan
@@ -779,7 +789,7 @@ class Runner
 		# Turn around
 		@direction = 2
 		@somerandomcounter+=1
-		if @somerandomcounter > 3
+		if @somerandomcounter > 3 and @mission_phase<15
 		  @mission_phase=10
 		end
 	end
@@ -791,7 +801,7 @@ class Runner
 		@direction = 3
 	end
     end
-    if @direction == 3 and y > battlefield_height - (battlefield_height / 10)
+    if @direction == 3 and (y > battlefield_height - (battlefield_height / 10) or (@mission_phase==17 and y > battlefield_height/2))
 	if velocity > 0
 		# Decelerate
 		accelerate(-1)
