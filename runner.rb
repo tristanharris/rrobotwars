@@ -166,6 +166,10 @@ class Runner
 
 	@knownpositions=[]
 	
+	@robotcountpending=0
+	@robotcountstartangle=0
+	@robotcounttotal=0
+	
     end
     # say("#{@direction} A #{@locked} S #{@startpos} E #{@endpos} D #{@enddistance} G #{gun_heading} R #{radar_heading} V #{velocity} ")
     if @targetting==5
@@ -178,7 +182,17 @@ class Runner
       # say("-")
       say(@targetting)
     end
-    radar_control(events)
+    if ((time-200)%1000)==0
+      @robotcountpending=7
+      @robotcountstartangle=0
+      @robotcounttotal=0
+    end
+    if @robotcountpending>0 and @targetting<4
+      # Perform a robot count instead of the normal radar scan
+      robot_count(events)
+    else
+      radar_control(events)
+    end
     target_control(events)
     case @mission_phase
     when 0
@@ -201,6 +215,12 @@ class Runner
       figure_of_8_lineup(events)
     when 14
       figure_of_8_main(events)
+    when 15
+      lineup
+    when 16
+      findedge
+    when 17
+      up_and_down(events)
     end
     doactions
     # STDIN::gets
@@ -368,6 +388,30 @@ class Runner
     
     # STDIN::gets
     
+  end
+  
+  def robot_count events
+    # Do a full 360 sweep of our radar as quickly as possible and total the number of robots found
+    # @robotcountpending=0
+    if @robotcountpending<7
+      # For values 1 to 6 we need to count the number of robots
+      @robotcounttotal+=events['robot_scanned'].count
+    end
+    if @robotcountpending>1
+      @radarturnrequired=60
+    else
+      if @robotcounttotal>1
+	if @mission_phase>=10 and @mission_phase<=14
+	  @mission_phase=15
+	end
+      else
+	if @mission_phase>=15 and @mission_phase<=17 
+	  @mission_phase=10
+	end
+      end
+      # puts("Total at end of count: #{@robotcounttotal} going to phase #{@mission_phase}")
+    end
+    @robotcountpending-=1
   end
   
   def radar_control events
@@ -658,6 +702,33 @@ class Runner
 	else
 	  ~@locked=1
 	end
+      end
+    end
+    if @locked==1
+      if velocity != 7
+	accelerate(1)
+      end
+    end
+    if @locked==2
+      stop
+    end
+  end
+
+  def findedge
+    # Drive to far right of screen
+    if (x>battlefield_width-(battlefield_width/10)) or @locked==2
+      if velocity==0
+	@locked=0
+	@mission_phase=@mission_phase+1
+      else
+	@locked=2
+      end
+    end
+    if @locked==0
+      if heading.to_i != 0
+	@tankturnrequired=10
+      else
+	@locked=1
       end
     end
     if @locked==1
