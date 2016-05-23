@@ -154,7 +154,6 @@ class Leeroyjenkins
       if @revcounter<5
 	fire 0.1
 	turn(-10)
-	puts("My energy is #{energy}")
 	return
       end
       if !(events['robot_scanned'].empty?)
