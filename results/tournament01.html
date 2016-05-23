@@ -1,0 +1,623 @@
+  
+  <html>
+  <head> <title>RRobots Tournament Results </title>
+  <style type="text/css">
+  <!--
+    body, p{font-family: verdana, arial, helvetica, sans-serif; font-size: 12px;}
+    table{background-color:white;	border:none;	padding:0px;	font-size: 12px;}
+    tr{}
+    td {
+      background-color:#efefef;
+      border-left:white 1px solid;
+      border-top:white 1px solid;
+      border-right:white 1px solid;
+      border-bottom:white 1px solid;
+      margin:0px;
+      padding:4px;
+    }
+    td.sum {font-weight:bold;}
+    td.blank {background-color:white}	
+  -->
+  </style>	
+  </head>
+  <body>
+  <a name='top'></a>
+<h1> Round Summary Tables </h1>
+<ul>
+<li><a href='#wins'>wins</a></li>
+<li><a href='#points'>points</a></li>
+<li><a href='#round_wins'>round_wins</a></li>
+<li><a href='#margin'>margin</a></li>
+<li><a href='#simul'>simul</a></li>
+<li><a href='#timedout'>timedout</a></li>
+<li><a href='#ties'>ties</a></li>
+</ul>
+<h1> Rankings</h1>
+<table><tr>
+<td>wins<table>
+<tr><td>Hunter</td> <td> 23.0</td></tr>
+<tr><td>Runner</td> <td> 22.0</td></tr>
+<tr><td>Killa</td> <td> 15.0</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 9.0</td></tr>
+<tr><td>Duck</td> <td> 6.0</td></tr>
+<tr><td>Deadpool</td> <td> 0.0</td></tr>
+</table></td>
+<td>points<table>
+<tr><td>Hunter</td> <td> 23.0</td></tr>
+<tr><td>Runner</td> <td> 22.0</td></tr>
+<tr><td>Killa</td> <td> 14.9</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 9.0</td></tr>
+<tr><td>Duck</td> <td> 6.0</td></tr>
+<tr><td>Deadpool</td> <td> 0.1</td></tr>
+</table></td>
+<td>round_wins<table>
+<tr><td>Hunter</td> <td> 5.0</td></tr>
+<tr><td>Runner</td> <td> 4.5</td></tr>
+<tr><td>Killa</td> <td> 3.0</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 2.0</td></tr>
+<tr><td>Duck</td> <td> 1.0</td></tr>
+<tr><td>Deadpool</td> <td> 0.0</td></tr>
+</table></td>
+<td>margin<table>
+<tr><td>Hunter</td> <td> 2020.8</td></tr>
+<tr><td>Runner</td> <td> 1748.1</td></tr>
+<tr><td>Killa</td> <td> 1050.0</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 582.3</td></tr>
+<tr><td>Duck</td> <td> 539.1</td></tr>
+<tr><td>Deadpool</td> <td> 0.0</td></tr>
+</table></td>
+<td>simul<table>
+<tr><td>Killa</td> <td> 0.0</td></tr>
+<tr><td>Duck</td> <td> 0.0</td></tr>
+<tr><td>Runner</td> <td> 0.0</td></tr>
+<tr><td>Hunter</td> <td> 0.0</td></tr>
+<tr><td>Deadpool</td> <td> 0.0</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 0.0</td></tr>
+</table></td>
+<td>timedout<table>
+<tr><td>Deadpool</td> <td> 3.0</td></tr>
+<tr><td>Duck</td> <td> 2.0</td></tr>
+<tr><td>Killa</td> <td> 1.0</td></tr>
+<tr><td>Runner</td> <td> 0.0</td></tr>
+<tr><td>Hunter</td> <td> 0.0</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 0.0</td></tr>
+</table></td>
+<td>ties<table>
+<tr><td>Killa</td> <td> 0.0</td></tr>
+<tr><td>Duck</td> <td> 0.0</td></tr>
+<tr><td>Runner</td> <td> 0.0</td></tr>
+<tr><td>Hunter</td> <td> 0.0</td></tr>
+<tr><td>Deadpool</td> <td> 0.0</td></tr>
+<tr><td>Leeroyjenkins</td> <td> 0.0</td></tr>
+</table></td>
+</tr></table>
+
+    <h1>Definitions:</h1>
+    <ul>
+      <li>  Wins:  The numer of matches (battles) won by a robot.  (ties or timeouts earn both bots 0.5)</li>
+      <li>  Points:  Similar to wins, but timeouts earn bots points proportional to their amount of health.  There is a chance this doesn't work properly yet</li>
+      <li>  Round_wins:  Number of rounds won by a robot.  Indicates how many robots this robot can beat.  Ties earn 0.5 </li>
+      <li>  Margin:  The margin of one match is how much energy the winning robot won by</li>
+      <li>  Simul:  Number of times a robot was involved in Simultaneous deaths</li>
+      <li>  Timedout:  Number of times a robot was in a match that timed out</li>
+      <li>  Ties:  Number of matches a robot was in that ended in a tie </li>
+    </ul>
+  
+
+  </body>
+  </html>
+  <hr style='width: 100%; height: 2px;'>
+<a name='wins'></a>
+<h1>wins</h1>
+<table>
+<th>
+<td> Hun </td>
+<td> Run </td>
+<td> Kil </td>
+<td> Lee </td>
+<td> Duc </td>
+<td> Dea </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Hunter </td> 
+    <td> --- </td>
+    <td> 3.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 23.0</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 2.0 </td>
+    <td> --- </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 22.0</td>
+  </tr>
+  <tr>
+  <td> Killa </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 15.0</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 4.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 9.0</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 1.0 </td>
+    <td> --- </td>
+    <td> 5.0 </td>
+<td class='sum'> 6.0</td>
+  </tr>
+  <tr>
+  <td> Deadpool </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.0</td>
+  </tr>
+</table>
+<hr style='width: 100%; height: 2px;'>
+<a name='points'></a>
+<h1>points</h1>
+<table>
+<th>
+<td> Hun </td>
+<td> Run </td>
+<td> Kil </td>
+<td> Lee </td>
+<td> Duc </td>
+<td> Dea </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Hunter </td> 
+    <td> --- </td>
+    <td> 3.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 23.0</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 2.0 </td>
+    <td> --- </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 22.0</td>
+  </tr>
+  <tr>
+  <td> Killa </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 5.0 </td>
+    <td> 5.0 </td>
+    <td> 4.9 </td>
+<td class='sum'> 14.9</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 4.0 </td>
+    <td> 5.0 </td>
+<td class='sum'> 9.0</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 1.0 </td>
+    <td> --- </td>
+    <td> 5.0 </td>
+<td class='sum'> 6.0</td>
+  </tr>
+  <tr>
+  <td> Deadpool </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.1 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.1</td>
+  </tr>
+</table>
+<hr style='width: 100%; height: 2px;'>
+<a name='round_wins'></a>
+<h1>round_wins</h1>
+<table>
+<th>
+<td> Hun </td>
+<td> Run </td>
+<td> Kil </td>
+<td> Lee </td>
+<td> Duc </td>
+<td> Dea </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Hunter </td> 
+    <td> --- </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+<td class='sum'> 5.0</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 0.5 </td>
+    <td> --- </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+<td class='sum'> 4.5</td>
+  </tr>
+  <tr>
+  <td> Killa </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+<td class='sum'> 3.0</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 1.0 </td>
+    <td> 1.0 </td>
+<td class='sum'> 2.0</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 1.0 </td>
+<td class='sum'> 1.0</td>
+  </tr>
+  <tr>
+  <td> Deadpool </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.0</td>
+  </tr>
+</table>
+<hr style='width: 100%; height: 2px;'>
+<a name='margin'></a>
+<h1>margin</h1>
+<table>
+<th>
+<td> Hun </td>
+<td> Run </td>
+<td> Kil </td>
+<td> Lee </td>
+<td> Duc </td>
+<td> Dea </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Hunter </td> 
+    <td> --- </td>
+    <td> 103.5 </td>
+    <td> 495.0 </td>
+    <td> 479.1 </td>
+    <td> 450.0 </td>
+    <td> 493.2 </td>
+<td class='sum'> 2020.8</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 158.7 </td>
+    <td> --- </td>
+    <td> 285.0 </td>
+    <td> 383.7 </td>
+    <td> 431.7 </td>
+    <td> 489.0 </td>
+<td class='sum'> 1748.1</td>
+  </tr>
+  <tr>
+  <td> Killa </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 322.8 </td>
+    <td> 243.0 </td>
+    <td> 484.2 </td>
+<td class='sum'> 1050.0</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 119.4 </td>
+    <td> 462.9 </td>
+<td class='sum'> 582.3</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 65.1 </td>
+    <td> --- </td>
+    <td> 474.0 </td>
+<td class='sum'> 539.1</td>
+  </tr>
+  <tr>
+  <td> Deadpool </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.0</td>
+  </tr>
+</table>
+<hr style='width: 100%; height: 2px;'>
+<a name='simul'></a>
+<h1>simul</h1>
+<table>
+<th>
+<td> Kil </td>
+<td> Duc </td>
+<td> Run </td>
+<td> Hun </td>
+<td> Dea </td>
+<td> Lee </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Killa </td> 
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Hunter </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Deadpool </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.0</td>
+  </tr>
+</table>
+<hr style='width: 100%; height: 2px;'>
+<a name='timedout'></a>
+<h1>timedout</h1>
+<table>
+<th>
+<td> Dea </td>
+<td> Duc </td>
+<td> Kil </td>
+<td> Run </td>
+<td> Hun </td>
+<td> Lee </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Deadpool </td> 
+    <td> --- </td>
+    <td> 2.0 </td>
+    <td> 1.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 3.0</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 2.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 2.0</td>
+  </tr>
+  <tr>
+  <td> Killa </td> 
+    <td> 1.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 1.0</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Hunter </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.0</td>
+  </tr>
+</table>
+<hr style='width: 100%; height: 2px;'>
+<a name='ties'></a>
+<h1>ties</h1>
+<table>
+<th>
+<td> Kil </td>
+<td> Duc </td>
+<td> Run </td>
+<td> Hun </td>
+<td> Dea </td>
+<td> Lee </td>
+<td class='sum'>Sum</td></th>
+  <tr>
+  <td> Killa </td> 
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Duck </td> 
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Runner </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Hunter </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Deadpool </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+    <td> 0.0 </td>
+<td class='sum'> 0.0</td>
+  </tr>
+  <tr>
+  <td> Leeroyjenkins </td> 
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> 0.0 </td>
+    <td> --- </td>
+<td class='sum'> 0.0</td>
+  </tr>
+</table>
+
+  </body>
+  </html>
+  

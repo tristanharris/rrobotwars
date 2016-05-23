@@ -1,0 +1,1285 @@
+---
+- winner_is:
+  - Killa
+  winner_energy:
+  - 1.0
+  elapsed_ticks: 2048
+  seed: 1464010748
+  robots:
+    Duck:
+      damage_given: 99.0
+      damage_taken: 108.0
+      kills: 0
+    Killa:
+      damage_given: 108.0
+      damage_taken: 99.0
+      kills: 1
+  match: 0
+  round: 1
+- winner_is:
+  - Killa
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 2053
+  seed: 1464010750
+  robots:
+    Duck:
+      damage_given: 0.0
+      damage_taken: 108.0
+      kills: 0
+    Killa:
+      damage_given: 108.0
+      damage_taken: 0.0
+      kills: 1
+  match: 1
+  round: 1
+- winner_is:
+  - Killa
+  winner_energy:
+  - 1.0
+  elapsed_ticks: 2120
+  seed: 1464010753
+  robots:
+    Duck:
+      damage_given: 99.0
+      damage_taken: 108.0
+      kills: 0
+    Killa:
+      damage_given: 108.0
+      damage_taken: 99.0
+      kills: 1
+  match: 2
+  round: 1
+- winner_is:
+  - Killa
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 2097
+  seed: 1464010755
+  robots:
+    Duck:
+      damage_given: 0.0
+      damage_taken: 108.0
+      kills: 0
+    Killa:
+      damage_given: 108.0
+      damage_taken: 0.0
+      kills: 1
+  match: 3
+  round: 1
+- winner_is:
+  - Killa
+  winner_energy:
+  - 1.0
+  elapsed_ticks: 2088
+  seed: 1464010757
+  robots:
+    Duck:
+      damage_given: 99.0
+      damage_taken: 108.0
+      kills: 0
+    Killa:
+      damage_given: 108.0
+      damage_taken: 99.0
+      kills: 1
+  match: 4
+  round: 1
+- winner_is:
+  - Runner
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 1375
+  seed: 1464010760
+  robots:
+    Duck:
+      damage_given: 0.0
+      damage_taken: 100.5
+      kills: 0
+    Runner:
+      damage_given: 100.5
+      damage_taken: 0.0
+      kills: 1
+  match: 0
+  round: 2
+- winner_is:
+  - Runner
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 1225
+  seed: 1464010762
+  robots:
+    Duck:
+      damage_given: 9.0
+      damage_taken: 102.6
+      kills: 0
+    Runner:
+      damage_given: 102.6
+      damage_taken: 9.0
+      kills: 1
+  match: 1
+  round: 2
+- winner_is:
+  - Runner
+  winner_energy:
+  - 73.0
+  elapsed_ticks: 1350
+  seed: 1464010764
+  robots:
+    Duck:
+      damage_given: 27.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 27.0
+      kills: 1
+  match: 2
+  round: 2
+- winner_is:
+  - Runner
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 1161
+  seed: 1464010767
+  robots:
+    Duck:
+      damage_given: 9.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 9.0
+      kills: 1
+  match: 3
+  round: 2
+- winner_is:
+  - Runner
+  winner_energy:
+  - 73.0
+  elapsed_ticks: 914
+  seed: 1464010769
+  robots:
+    Duck:
+      damage_given: 27.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 27.0
+      kills: 1
+  match: 4
+  round: 2
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 579
+  seed: 1464010771
+  robots:
+    Duck:
+      damage_given: 9.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 9.0
+      kills: 1
+  match: 0
+  round: 3
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 73.0
+  elapsed_ticks: 1079
+  seed: 1464010774
+  robots:
+    Duck:
+      damage_given: 27.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 27.0
+      kills: 1
+  match: 1
+  round: 3
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 452
+  seed: 1464010776
+  robots:
+    Duck:
+      damage_given: 9.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 9.0
+      kills: 1
+  match: 2
+  round: 3
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 1198
+  seed: 1464010778
+  robots:
+    Duck:
+      damage_given: 9.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 9.0
+      kills: 1
+  match: 3
+  round: 3
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 664
+  seed: 1464010780
+  robots:
+    Duck:
+      damage_given: 0.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 0.0
+      kills: 1
+  match: 4
+  round: 3
+- winner_is:
+  - Duck
+  - Deadpool
+  winner_energy:
+  - 91.6
+  - 1.0
+  elapsed_ticks: 10000
+  seed: 1464010783
+  robots:
+    Duck:
+      damage_given: 99.0
+      damage_taken: 8.4
+      kills: 0
+    Deadpool:
+      damage_given: 8.4
+      damage_taken: 99.0
+      kills: 0
+  match: 0
+  round: 4
+  timedout: 1
+- winner_is:
+  - Duck
+  winner_energy:
+  - 93.4
+  elapsed_ticks: 8931
+  seed: 1464010785
+  robots:
+    Duck:
+      damage_given: 108.0
+      damage_taken: 6.6
+      kills: 1
+    Deadpool:
+      damage_given: 6.6
+      damage_taken: 108.0
+      kills: 0
+  match: 1
+  round: 4
+- winner_is:
+  - Duck
+  winner_energy:
+  - 86.8
+  elapsed_ticks: 7762
+  seed: 1464010788
+  robots:
+    Duck:
+      damage_given: 108.0
+      damage_taken: 13.2
+      kills: 1
+    Deadpool:
+      damage_given: 13.2
+      damage_taken: 108.0
+      kills: 0
+  match: 2
+  round: 4
+- winner_is:
+  - Duck
+  winner_energy:
+  - 90.4
+  elapsed_ticks: 6315
+  seed: 1464010791
+  robots:
+    Duck:
+      damage_given: 108.0
+      damage_taken: 9.6
+      kills: 1
+    Deadpool:
+      damage_given: 9.6
+      damage_taken: 108.0
+      kills: 0
+  match: 3
+  round: 4
+- winner_is:
+  - Duck
+  - Deadpool
+  winner_energy:
+  - 89.8
+  - 1.0
+  elapsed_ticks: 10000
+  seed: 1464010793
+  robots:
+    Duck:
+      damage_given: 99.0
+      damage_taken: 10.2
+      kills: 0
+    Deadpool:
+      damage_given: 10.2
+      damage_taken: 99.0
+      kills: 0
+  match: 4
+  round: 4
+  timedout: 1
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 55.0
+  elapsed_ticks: 1003
+  seed: 1464010796
+  robots:
+    Duck:
+      damage_given: 45.0
+      damage_taken: 102.6
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 102.6
+      damage_taken: 45.0
+      kills: 1
+  match: 0
+  round: 5
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 28.0
+  elapsed_ticks: 1665
+  seed: 1464010799
+  robots:
+    Duck:
+      damage_given: 72.0
+      damage_taken: 101.4
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 101.4
+      damage_taken: 72.0
+      kills: 1
+  match: 1
+  round: 5
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 19.0
+  elapsed_ticks: 1671
+  seed: 1464010801
+  robots:
+    Duck:
+      damage_given: 81.0
+      damage_taken: 102.0
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 102.0
+      damage_taken: 81.0
+      kills: 1
+  match: 2
+  round: 5
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 10.0
+  elapsed_ticks: 1849
+  seed: 1464010803
+  robots:
+    Duck:
+      damage_given: 90.0
+      damage_taken: 101.4
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 101.4
+      damage_taken: 90.0
+      kills: 1
+  match: 3
+  round: 5
+- winner_is:
+  - Duck
+  winner_energy:
+  - 57.1
+  elapsed_ticks: 2229
+  seed: 1464010805
+  robots:
+    Duck:
+      damage_given: 108.0
+      damage_taken: 42.9
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 42.9
+      damage_taken: 108.0
+      kills: 0
+  match: 4
+  round: 5
+- winner_is:
+  - Runner
+  winner_energy:
+  - 37.0
+  elapsed_ticks: 3590
+  seed: 1464010808
+  robots:
+    Killa:
+      damage_given: 63.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 63.0
+      kills: 1
+  match: 0
+  round: 6
+- winner_is:
+  - Runner
+  winner_energy:
+  - 82.0
+  elapsed_ticks: 1802
+  seed: 1464010810
+  robots:
+    Killa:
+      damage_given: 18.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 18.0
+      kills: 1
+  match: 1
+  round: 6
+- winner_is:
+  - Runner
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 1965
+  seed: 1464010813
+  robots:
+    Killa:
+      damage_given: 9.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 9.0
+      kills: 1
+  match: 2
+  round: 6
+- winner_is:
+  - Runner
+  winner_energy:
+  - 10.0
+  elapsed_ticks: 1844
+  seed: 1464010815
+  robots:
+    Killa:
+      damage_given: 90.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 90.0
+      kills: 1
+  match: 3
+  round: 6
+- winner_is:
+  - Runner
+  winner_energy:
+  - 64.0
+  elapsed_ticks: 2599
+  seed: 1464010818
+  robots:
+    Killa:
+      damage_given: 36.0
+      damage_taken: 100.2
+      kills: 0
+    Runner:
+      damage_given: 100.2
+      damage_taken: 36.0
+      kills: 1
+  match: 4
+  round: 6
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 91.0
+  elapsed_ticks: 4338
+  seed: 1464010821
+  robots:
+    Killa:
+      damage_given: 9.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 9.0
+      kills: 1
+  match: 0
+  round: 7
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 3755
+  seed: 1464010828
+  robots:
+    Killa:
+      damage_given: 0.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 0.0
+      kills: 1
+  match: 1
+  round: 7
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 3595
+  seed: 1464010830
+  robots:
+    Killa:
+      damage_given: 0.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 0.0
+      kills: 1
+  match: 2
+  round: 7
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 3874
+  seed: 1464010833
+  robots:
+    Killa:
+      damage_given: 0.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 0.0
+      kills: 1
+  match: 3
+  round: 7
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 100.0
+  elapsed_ticks: 3996
+  seed: 1464010835
+  robots:
+    Killa:
+      damage_given: 0.0
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 0.0
+      kills: 1
+  match: 4
+  round: 7
+- winner_is:
+  - Killa
+  - Deadpool
+  winner_energy:
+  - 91.9
+  - 10.0
+  elapsed_ticks: 10000
+  seed: 1464010838
+  robots:
+    Killa:
+      damage_given: 90.0
+      damage_taken: 8.1
+      kills: 0
+    Deadpool:
+      damage_given: 8.1
+      damage_taken: 90.0
+      kills: 0
+  match: 0
+  round: 8
+  timedout: 1
+- winner_is:
+  - Killa
+  winner_energy:
+  - 92.8
+  elapsed_ticks: 7959
+  seed: 1464010841
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 7.2
+      kills: 1
+    Deadpool:
+      damage_given: 7.2
+      damage_taken: 108.0
+      kills: 0
+  match: 1
+  round: 8
+- winner_is:
+  - Killa
+  winner_energy:
+  - 95.2
+  elapsed_ticks: 7160
+  seed: 1464010843
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 4.8
+      kills: 1
+    Deadpool:
+      damage_given: 4.8
+      damage_taken: 108.0
+      kills: 0
+  match: 2
+  round: 8
+- winner_is:
+  - Killa
+  winner_energy:
+  - 89.5
+  elapsed_ticks: 9498
+  seed: 1464010846
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 10.5
+      kills: 1
+    Deadpool:
+      damage_given: 10.5
+      damage_taken: 108.0
+      kills: 0
+  match: 3
+  round: 8
+- winner_is:
+  - Killa
+  winner_energy:
+  - 92.8
+  elapsed_ticks: 8854
+  seed: 1464010849
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 7.2
+      kills: 1
+    Deadpool:
+      damage_given: 7.2
+      damage_taken: 108.0
+      kills: 0
+  match: 4
+  round: 8
+- winner_is:
+  - Killa
+  winner_energy:
+  - 85.9
+  elapsed_ticks: 2325
+  seed: 1464010852
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 14.1
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 14.1
+      damage_taken: 108.0
+      kills: 0
+  match: 0
+  round: 9
+- winner_is:
+  - Killa
+  winner_energy:
+  - 23.2
+  elapsed_ticks: 2280
+  seed: 1464010854
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 76.8
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 76.8
+      damage_taken: 108.0
+      kills: 0
+  match: 1
+  round: 9
+- winner_is:
+  - Killa
+  winner_energy:
+  - 63.7
+  elapsed_ticks: 2343
+  seed: 1464010856
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 36.3
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 36.3
+      damage_taken: 108.0
+      kills: 0
+  match: 2
+  round: 9
+- winner_is:
+  - Killa
+  winner_energy:
+  - 52.9
+  elapsed_ticks: 2296
+  seed: 1464010859
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 47.1
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 47.1
+      damage_taken: 108.0
+      kills: 0
+  match: 3
+  round: 9
+- winner_is:
+  - Killa
+  winner_energy:
+  - 57.1
+  elapsed_ticks: 2143
+  seed: 1464010861
+  robots:
+    Killa:
+      damage_given: 108.0
+      damage_taken: 42.9
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 42.9
+      damage_taken: 108.0
+      kills: 0
+  match: 4
+  round: 9
+- winner_is:
+  - Runner
+  winner_energy:
+  - 82.9
+  elapsed_ticks: 948
+  seed: 1464010863
+  robots:
+    Runner:
+      damage_given: 102.6
+      damage_taken: 17.1
+      kills: 1
+    Hunter:
+      damage_given: 17.1
+      damage_taken: 102.6
+      kills: 0
+  match: 0
+  round: 10
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 21.1
+  elapsed_ticks: 3312
+  seed: 1464010866
+  robots:
+    Runner:
+      damage_given: 78.9
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 78.9
+      kills: 1
+  match: 1
+  round: 10
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 32.8
+  elapsed_ticks: 2699
+  seed: 1464010868
+  robots:
+    Runner:
+      damage_given: 67.2
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 67.2
+      kills: 1
+  match: 2
+  round: 10
+- winner_is:
+  - Runner
+  winner_energy:
+  - 73.0
+  elapsed_ticks: 1182
+  seed: 1464010871
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 27.0
+      kills: 1
+    Hunter:
+      damage_given: 27.0
+      damage_taken: 100.2
+      kills: 0
+  match: 3
+  round: 10
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 47.2
+  elapsed_ticks: 3379
+  seed: 1464010873
+  robots:
+    Runner:
+      damage_given: 52.8
+      damage_taken: 100.8
+      kills: 0
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 52.8
+      kills: 1
+  match: 4
+  round: 10
+- winner_is:
+  - Runner
+  winner_energy:
+  - 97.0
+  elapsed_ticks: 2890
+  seed: 1464010876
+  robots:
+    Runner:
+      damage_given: 100.5
+      damage_taken: 3.0
+      kills: 1
+    Deadpool:
+      damage_given: 3.0
+      damage_taken: 100.5
+      kills: 0
+  match: 0
+  round: 11
+- winner_is:
+  - Runner
+  winner_energy:
+  - 98.8
+  elapsed_ticks: 1454
+  seed: 1464010878
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 1.2
+      kills: 1
+    Deadpool:
+      damage_given: 1.2
+      damage_taken: 100.2
+      kills: 0
+  match: 1
+  round: 11
+- winner_is:
+  - Runner
+  winner_energy:
+  - 97.3
+  elapsed_ticks: 1804
+  seed: 1464010881
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 2.7
+      kills: 1
+    Deadpool:
+      damage_given: 2.7
+      damage_taken: 100.2
+      kills: 0
+  match: 2
+  round: 11
+- winner_is:
+  - Runner
+  winner_energy:
+  - 97.6
+  elapsed_ticks: 2087
+  seed: 1464010883
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 2.4
+      kills: 1
+    Deadpool:
+      damage_given: 2.4
+      damage_taken: 100.2
+      kills: 0
+  match: 3
+  round: 11
+- winner_is:
+  - Runner
+  winner_energy:
+  - 97.0
+  elapsed_ticks: 2265
+  seed: 1464010886
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 3.0
+      kills: 1
+    Deadpool:
+      damage_given: 3.0
+      damage_taken: 100.2
+      kills: 0
+  match: 4
+  round: 11
+- winner_is:
+  - Runner
+  winner_energy:
+  - 75.1
+  elapsed_ticks: 936
+  seed: 1464010888
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 24.9
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 24.9
+      damage_taken: 100.2
+      kills: 0
+  match: 0
+  round: 12
+- winner_is:
+  - Runner
+  winner_energy:
+  - 80.5
+  elapsed_ticks: 820
+  seed: 1464010890
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 19.5
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 19.5
+      damage_taken: 100.2
+      kills: 0
+  match: 1
+  round: 12
+- winner_is:
+  - Runner
+  winner_energy:
+  - 75.7
+  elapsed_ticks: 689
+  seed: 1464010893
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 24.3
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 24.3
+      damage_taken: 100.2
+      kills: 0
+  match: 2
+  round: 12
+- winner_is:
+  - Runner
+  winner_energy:
+  - 77.5
+  elapsed_ticks: 760
+  seed: 1464010895
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 22.5
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 22.5
+      damage_taken: 100.2
+      kills: 0
+  match: 3
+  round: 12
+- winner_is:
+  - Runner
+  winner_energy:
+  - 73.9
+  elapsed_ticks: 1104
+  seed: 1464010897
+  robots:
+    Runner:
+      damage_given: 100.2
+      damage_taken: 26.1
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 26.1
+      damage_taken: 100.2
+      kills: 0
+  match: 4
+  round: 12
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 97.0
+  elapsed_ticks: 2649
+  seed: 1464010900
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 3.0
+      kills: 1
+    Deadpool:
+      damage_given: 3.0
+      damage_taken: 100.8
+      kills: 0
+  match: 0
+  round: 13
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 97.0
+  elapsed_ticks: 1906
+  seed: 1464010902
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 3.0
+      kills: 1
+    Deadpool:
+      damage_given: 3.0
+      damage_taken: 100.8
+      kills: 0
+  match: 1
+  round: 13
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 98.8
+  elapsed_ticks: 1014
+  seed: 1464010904
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 1.2
+      kills: 1
+    Deadpool:
+      damage_given: 1.2
+      damage_taken: 100.8
+      kills: 0
+  match: 2
+  round: 13
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 97.9
+  elapsed_ticks: 2010
+  seed: 1464010907
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 2.1
+      kills: 1
+    Deadpool:
+      damage_given: 2.1
+      damage_taken: 100.8
+      kills: 0
+  match: 3
+  round: 13
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 98.5
+  elapsed_ticks: 2114
+  seed: 1464010909
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 1.5
+      kills: 1
+    Deadpool:
+      damage_given: 1.5
+      damage_taken: 100.8
+      kills: 0
+  match: 4
+  round: 13
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 87.4
+  elapsed_ticks: 2922
+  seed: 1464010911
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 12.6
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 12.6
+      damage_taken: 100.8
+      kills: 0
+  match: 0
+  round: 14
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 98.8
+  elapsed_ticks: 661
+  seed: 1464010914
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 1.2
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 1.2
+      damage_taken: 100.8
+      kills: 0
+  match: 1
+  round: 14
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 93.1
+  elapsed_ticks: 1440
+  seed: 1464010916
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 6.9
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 6.9
+      damage_taken: 100.8
+      kills: 0
+  match: 2
+  round: 14
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 96.4
+  elapsed_ticks: 588
+  seed: 1464010919
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 3.6
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 3.6
+      damage_taken: 100.8
+      kills: 0
+  match: 3
+  round: 14
+- winner_is:
+  - Hunter
+  winner_energy:
+  - 99.4
+  elapsed_ticks: 514
+  seed: 1464010921
+  robots:
+    Hunter:
+      damage_given: 100.8
+      damage_taken: 0.6
+      kills: 1
+    Leeroyjenkins:
+      damage_given: 0.6
+      damage_taken: 100.8
+      kills: 0
+  match: 4
+  round: 14
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 91.9
+  elapsed_ticks: 6234
+  seed: 1464010923
+  robots:
+    Deadpool:
+      damage_given: 8.1
+      damage_taken: 100.2
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 100.2
+      damage_taken: 8.1
+      kills: 1
+  match: 0
+  round: 15
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 92.5
+  elapsed_ticks: 4513
+  seed: 1464010926
+  robots:
+    Deadpool:
+      damage_given: 7.5
+      damage_taken: 101.7
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 101.7
+      damage_taken: 7.5
+      kills: 1
+  match: 1
+  round: 15
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 90.7
+  elapsed_ticks: 7243
+  seed: 1464010928
+  robots:
+    Deadpool:
+      damage_given: 9.3
+      damage_taken: 101.7
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 101.7
+      damage_taken: 9.3
+      kills: 1
+  match: 2
+  round: 15
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 90.7
+  elapsed_ticks: 6842
+  seed: 1464010931
+  robots:
+    Deadpool:
+      damage_given: 9.3
+      damage_taken: 100.5
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 100.5
+      damage_taken: 9.3
+      kills: 1
+  match: 3
+  round: 15
+- winner_is:
+  - Leeroyjenkins
+  winner_energy:
+  - 91.3
+  elapsed_ticks: 7802
+  seed: 1464010934
+  robots:
+    Deadpool:
+      damage_given: 8.7
+      damage_taken: 101.7
+      kills: 0
+    Leeroyjenkins:
+      damage_given: 101.7
+      damage_taken: 8.7
+      kills: 1
+  match: 4
+  round: 15
