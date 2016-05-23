@@ -14,7 +14,9 @@ class Leeroyjenkins
 	@previousangle=0
 	@banka=[]
 	@bankb=[]
+	@revcounter=0
     end
+    dospeech
     case @mission_phase
     when 10
       lineup
@@ -24,6 +26,23 @@ class Leeroyjenkins
       findmidy(events)
     when 13
       spin(events)
+    end
+  end
+  
+  def dospeech
+    if (energy>20)
+      st=(time/100).to_i;
+      
+      case st
+      when 1
+	say("Alright chums, Let's do this!!!")
+      when 3
+	say("LEEEEEEEEEEEEEEEEROY JENKINS")
+      when 5
+	say("We've got em!")
+      end
+    else
+      say("At least I have chicken")
     end
   end
   
@@ -123,6 +142,7 @@ class Leeroyjenkins
     else
       if radar_heading.to_i==0
 	# At point zero - swap banks
+	@revcounter+=1
 	if @activebank==0
 	  @activebank=1
 	  @bankb=[]
@@ -130,6 +150,12 @@ class Leeroyjenkins
 	  @activebank=0
 	  @banka=[]
 	end
+      end
+      if @revcounter<5
+	fire 0.1
+	turn(-10)
+	puts("My energy is #{energy}")
+	return
       end
       if !(events['robot_scanned'].empty?)
 	fire 1
