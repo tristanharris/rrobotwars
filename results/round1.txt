@@ -1,0 +1,49 @@
+Round 1
+Run with version ce1324ca836bfd19d8d0fe35122128ab717d852d
+
+rrobots hunter.rb deadpool.rb --match 1464004963	#	hunter
+rrobots hunter.rb deadpool.rb --match 1464007901	#	hunter
+rrobots hunter.rb deadpool.rb --match 1464007915	#	hunter
+		
+rrobots deadpool.rb runner.rb --match 1464005075	#	runner
+rrobots deadpool.rb runner.rb --match 1464008038	#	runner
+rrobots deadpool.rb runner.rb --match 1464008079	#	runner
+		
+rrobots leeroyjenkins.rb deadpool.rb --match 1464005202	#	leeroyjenkins
+rrobots leeroyjenkins.rb deadpool.rb --match 1464008170	#	leeroyjenkins
+rrobots leeroyjenkins.rb deadpool.rb --match 1464008195	#	leeroyjenkins
+		
+rrobots leeroyjenkins.rb hunter.rb --match 1464005363	#	hunter
+rrobots leeroyjenkins.rb hunter.rb --match 1464008308	#	hunter
+rrobots leeroyjenkins.rb hunter.rb --match 1464008335	#	hunter
+		
+rrobots leeroyjenkins.rb runner.rb --match 1464005426	#	runner
+rrobots leeroyjenkins.rb runner.rb --match 1464008407	#	runner
+rrobots leeroyjenkins.rb runner.rb --match 1464008425	#	runner
+		
+rrobots runner.rb hunter.rb --match 1464005486	#	hunter
+rrobots runner.rb hunter.rb --match 1464005800	#	runner
+rrobots runner.rb hunter.rb --match 1464005918	#	hunter
+rrobots runner.rb hunter.rb --match 1464006009	#	hunter
+		
+rrobots deadpool.rb killa.rb --match 1464008563	#	killa
+rrobots deadpool.rb killa.rb --match 1464008607	#	killa
+rrobots deadpool.rb killa.rb --match 1464008617	#	killa
+		
+rrobots leeroyjenkins.rb killa.rb --match 1464008669	#	killa
+rrobots leeroyjenkins.rb killa.rb --match 1464008716	#	killa
+rrobots leeroyjenkins.rb killa.rb --match 1464008725	#	killa
+		
+rrobots leeroyjenkins.rb duck.rb --match 1464008771	#	duck
+rrobots leeroyjenkins.rb duck.rb --match 1464008808	#	duck
+rrobots leeroyjenkins.rb duck.rb --match 1464008817	#	duck
+		
+rrobots deadpool.rb duck.rb --match 1464008857	#	duck
+rrobots deadpool.rb duck.rb --match 1464008921	#	duck
+rrobots deadpool.rb duck.rb --match 1464008934	#	duck
+		
+rrobots runner.rb hunter.rb deadpool.rb leeroyjenkins.rb duck.rb killa.rb --match 1464005619	#	runner
+rrobots runner.rb hunter.rb deadpool.rb leeroyjenkins.rb duck.rb killa.rb --match 1464005726	#	hunter
+rrobots runner.rb hunter.rb deadpool.rb leeroyjenkins.rb duck.rb killa.rb --match 1464006265	#	hunter
+rrobots runner.rb hunter.rb deadpool.rb leeroyjenkins.rb duck.rb killa.rb --match 1464006294	#	hunter
+
